@@ -23,6 +23,8 @@ Une seule page avec un menu Français / English / Nederlands qui traduit le cont
 
 Dans la présentation À propos, utiliser le nom court « Steve Djieutcheu ». Le portrait est affiché sans monogramme superposé.
 
+L’emblème d’en-tête est un dessin vectoriel de signal entre des nœuds réseau dans un hexagone, accompagné du nom Steve Aimé. Il remplace les lettres « SA. » dans leur carré ; le favicon reprend ce dessin. Aucun ajout sur la photo.
+
 Deux modes sélectionnables : clair en tons pierre/sauge et sombre en tons ardoise/vert doux. Textes courants de 17 à 18 pixels, textes secondaires d’au moins 14 pixels. Le choix suit d’abord le système puis la préférence manuelle mémorisée, indépendamment de la langue. La photo fournie pour correspondre au profil LinkedIn remplace le portrait retouché à l’accueil : même cadrage carré sur téléphone et ordinateur, aucune nouvelle retouche ni monogramme. Le fichier source reste dans son emplacement personnel ; seule la photo autorisée est copiée dans les ressources du site. Aucun résultat chiffré, niveau d’expertise, témoignage ou certification inventé.
 
 ## Informations confirmées et limites
@@ -44,7 +46,7 @@ Deux modes sélectionnables : clair en tons pierre/sauge et sombre en tons ardoi
 - Traductions éditoriales locales, langue du navigateur au premier accès, choix manuel mémorisé et prioritaire. Français de repli si la langue est inconnue ou JavaScript désactivé.
 - Fichiers publiables isolés dans `public/` ; ressources locales uniquement.
 - Liens relatifs compatibles avec un déploiement sous un préfixe.
-- Menu unique repliable sur tous les écrans, regroupant navigation, langue et apparence. Réglages masqués tant que le menu est fermé ; fermeture par Échap, clic extérieur ou sortie du focus. Le panneau défile sur écran court. Sans JavaScript, les liens restent visibles et les réglages inactifs sont masqués.
+- Navigation, langue et apparence regroupées dans une barre horizontale dès 1024 pixels, toujours visible dans l’en-tête pendant le défilement. Aucun bouton d’ouverture nécessaire sur ordinateur. Sous 1024 pixels, les mêmes éléments sont dans un menu vertical repliable : fermeture par Échap, clic extérieur ou sortie du focus, défilement interne en écran court. Le focus reste visible au changement de disposition. Sans JavaScript, les liens restent visibles et les réglages inactifs sont masqués.
 - Même ordre du contenu à toutes les largeurs, grilles ramenées à une colonne sur téléphone et accueil à une colonne sur tablette ; en-tête compact sans rangée de réglages séparée.
 - Animations finies d’entrée et de défilement, survol des cartes, indicateur de lecture et section active. Respect du mouvement réduit ; le contenu n’est pas caché en cas d’échec d’animation.
 - Filtres de réalisations utilisables au clavier, avec état et nombre de résultats annoncés ; changement de langue conservant le filtre sélectionné.

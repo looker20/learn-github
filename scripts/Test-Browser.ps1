@@ -77,10 +77,27 @@ function Switch-Theme([ValidateSet('light', 'dark')][string]$Theme) {
     Assert-True $samePage 'Theme change failed or replaced page, URL or focus'
 }
 function Open-Menu {
-    Evaluate 'if (document.querySelector(".menu-toggle").getAttribute("aria-expanded") !== "true") document.querySelector(".menu-toggle").click()' | Out-Null
+    Evaluate 'if (!matchMedia("(min-width: 1024px)").matches && document.querySelector(".menu-toggle").getAttribute("aria-expanded") !== "true") document.querySelector(".menu-toggle").click()' | Out-Null
 }
 function Close-Menu {
     Evaluate 'if (document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "true") document.querySelector(".menu-toggle").click()' | Out-Null
+}
+function Test-ResponsiveFocus {
+    Invoke-CDP 'Emulation.setDeviceMetricsOverride' @{ width = 900; height = 900; deviceScaleFactor = 1; mobile = $false } | Out-Null
+    Navigate ($BaseUrl + '/index.html')
+    Evaluate 'window.focusTrace = []; for (const type of ["focusin", "focusout"]) document.addEventListener(type, event => focusTrace.push({type, target:event.target.id || event.target.tagName, related:event.relatedTarget?.id || event.relatedTarget?.tagName, desktop:matchMedia("(min-width: 1024px)").matches})); matchMedia("(min-width: 1024px)").addEventListener("change", event => focusTrace.push({type:"media",desktop:event.matches,active:document.activeElement.id || document.activeElement.tagName}));' | Out-Null
+    Open-Menu
+    Evaluate 'document.querySelector("#theme").focus()' | Out-Null
+    Invoke-CDP 'Emulation.setDeviceMetricsOverride' @{ width = 1024; height = 900; deviceScaleFactor = 1; mobile = $false } | Out-Null
+    Evaluate 'new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))' | Out-Null
+    Assert-True (Evaluate 'getComputedStyle(document.querySelector(".menu-toggle")).display === "none" && document.activeElement.matches("#theme") && getComputedStyle(document.querySelector("#navigation")).display !== "none"') 'Resizing to desktop lost visible settings or focus'
+    Invoke-CDP 'Emulation.setDeviceMetricsOverride' @{ width = 900; height = 900; deviceScaleFactor = 1; mobile = $false } | Out-Null
+    Evaluate 'new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))' | Out-Null
+    Assert-True (Evaluate 'document.activeElement.matches(".menu-toggle") && document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false" && getComputedStyle(document.querySelector("#navigation")).display === "none"') 'Resizing to mobile left focus inside a hidden menu'
+    Invoke-CDP 'Emulation.setDeviceMetricsOverride' @{ width = 1280; height = 900; deviceScaleFactor = 1; mobile = $false } | Out-Null
+    Evaluate 'new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))' | Out-Null
+    Assert-True (Evaluate 'document.activeElement.matches("#navigation a")') 'Resize left focus on the hidden mobile toggle'
+    $results.Add('PASS responsive breakpoint transitions preserve visible keyboard focus')
 }
 try {
     $arguments = @('--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check', '--remote-debugging-port=0', ('--user-data-dir="' + $profilePath + '"'), 'about:blank')
@@ -94,18 +111,24 @@ try {
     $script:socket = [Net.WebSockets.ClientWebSocket]::new()
     $script:socket.ConnectAsync([Uri]$tab.webSocketDebuggerUrl, [Threading.CancellationToken]::None).GetAwaiter().GetResult() | Out-Null
     foreach ($domain in @('Page.enable', 'Runtime.enable', 'Log.enable', 'Network.enable')) { Invoke-CDP $domain | Out-Null }
+    Invoke-CDP 'Emulation.setFocusEmulationEnabled' @{ enabled = $true } | Out-Null
+    Test-ResponsiveFocus
     $prefixes = if ($Deployed) { @('') } else { @('', '/portfolio') }
     foreach ($prefix in $prefixes) {
         foreach ($theme in @('light', 'dark')) {
         foreach ($language in @('fr', 'en', 'nl')) {
             $path = '/index.html'
-            foreach ($width in @(320, 360, 390, 640, 768, 900, 1024, 1280)) {
+            foreach ($width in @(320, 360, 390, 640, 768, 900, 1023, 1024, 1280)) {
                 Invoke-CDP 'Emulation.setDeviceMetricsOverride' @{ width = $width; height = 900; deviceScaleFactor = 1; mobile = ($width -le 640) } | Out-Null
                 Navigate ($BaseUrl + $prefix + $path)
-                Assert-True (Evaluate 'document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false" && getComputedStyle(document.querySelector("#navigation")).display === "none" && document.querySelector("#language").getClientRects().length === 0 && document.querySelector("#theme").getClientRects().length === 0 && document.querySelector(".site-header").getBoundingClientRect().height < 90') 'Closed menu exposes settings or header is too tall'
+                Assert-True (Evaluate 'document.querySelector(".site-header").getBoundingClientRect().height < 90 && (innerWidth >= 1024 ? getComputedStyle(document.querySelector(".menu-toggle")).display === "none" && getComputedStyle(document.querySelector("#navigation")).display !== "none" && document.querySelector("#language").getClientRects().length > 0 && document.querySelector("#theme").getClientRects().length > 0 : document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false" && getComputedStyle(document.querySelector("#navigation")).display === "none" && document.querySelector("#language").getClientRects().length === 0 && document.querySelector("#theme").getClientRects().length === 0)') 'Desktop navigation is hidden or mobile settings leak out of the menu'
                 Switch-Language $language
                 Switch-Theme $theme
                 Assert-True (Evaluate 'document.querySelector("#navigation").contains(document.querySelector("#language")) && document.querySelector("#navigation").contains(document.querySelector("#theme")) && document.querySelector("#navigation").getBoundingClientRect().left >= 0 && document.querySelector("#navigation").getBoundingClientRect().right <= innerWidth && document.querySelector("#navigation").scrollWidth <= document.querySelector("#navigation").clientWidth') 'Unified menu does not contain its settings or overflows'
+                if ($width -ge 1024) {
+                    Assert-True (Evaluate '(() => { const nodes = [...document.querySelectorAll("#navigation a"), document.querySelector("#language"), document.querySelector("#theme")]; const centers = nodes.map(node => { const rect = node.getBoundingClientRect(); return rect.top + rect.height / 2; }); return Math.max(...centers) - Math.min(...centers) < 2; })()') 'Desktop navigation and settings are not in one horizontal row'
+                }
+                Assert-True (Evaluate '!!document.querySelector(".brand-symbol path") && !document.querySelector(".brand-mark").textContent.trim()') 'New vector logo is missing or old initials remain'
                 Assert-True ((Evaluate 'document.documentElement.lang') -eq $language) 'Incorrect language'
                 Assert-True (Evaluate 'Object.keys(portfolioTranslations.en).every(key => typeof portfolioTranslations.nl[key] === "string" && portfolioTranslations.nl[key].length > 0)') 'Incomplete translation catalogue'
                 $expectedHeading = @{ fr = 'Comprendre les'; en = 'Understand systems'; nl = 'Systemen begrijpen' }[$language]
@@ -162,6 +185,7 @@ try {
                 Evaluate 'document.querySelector("[data-project-filter=all]").click()' | Out-Null
                 Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 5 && !document.querySelector("[data-project-group=academic]").hidden') 'All-projects filter failed'
                 Close-Menu
+                if ($width -lt 1024) {
                 Evaluate 'document.querySelector(".menu-toggle").focus()' | Out-Null
                 Press-Key 'Enter' 'Enter' 13
                 Assert-True (Evaluate 'document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "true" && getComputedStyle(document.querySelector("#navigation")).display !== "none"') 'Keyboard menu open failed'
@@ -182,6 +206,15 @@ try {
                 Open-Menu
                 Evaluate 'document.querySelector(".hero-role").click()' | Out-Null
                 Assert-True (Evaluate 'document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false"') 'Outside click did not close menu'
+                } else {
+                    Evaluate 'document.querySelector("#navigation a").focus()' | Out-Null
+                    for ($tabIndex = 0; $tabIndex -lt 5; $tabIndex++) { Press-Key 'Tab' 'Tab' 9 }
+                    Assert-True (Evaluate 'document.activeElement.matches("#language")') 'Desktop language selector not reachable by Tab'
+                    Press-Key 'Tab' 'Tab' 9
+                    Assert-True (Evaluate 'document.activeElement.matches("#theme")') 'Desktop theme selector not reachable by Tab'
+                    Press-Key 'Escape' 'Escape' 27
+                    Assert-True (Evaluate 'getComputedStyle(document.querySelector("#navigation")).display !== "none" && document.activeElement.matches("#theme")') 'Escape hid desktop navigation or lost focus'
+                }
                 Evaluate 'document.querySelector("summary").focus()' | Out-Null
                 Press-Key 'Enter' 'Enter' 13
                 Assert-True (Evaluate 'document.querySelector("details").open') 'Project details keyboard interaction failed'
@@ -189,6 +222,10 @@ try {
                 Evaluate 'new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))' | Out-Null
                 Assert-True (Evaluate 'document.querySelector(".reading-progress").value > 95') 'Reading progress not updated'
                 Assert-True (Evaluate '!!document.querySelector("#navigation a[aria-current=location]")') 'Current section not indicated'
+                Assert-True (Evaluate 'Math.abs(document.querySelector(".site-header").getBoundingClientRect().top) < 1') 'Header does not stay at the top while scrolling'
+                if ($width -ge 1024) {
+                    Assert-True (Evaluate 'document.querySelector("#language").getBoundingClientRect().top >= 0 && document.querySelector("#theme").getBoundingClientRect().bottom < 90 && getComputedStyle(document.querySelector("#navigation")).display !== "none"') 'Desktop settings disappear while scrolling'
+                }
                 Evaluate 'document.activeElement.blur(); window.scrollTo({top: 0, behavior: "instant"})' | Out-Null
                 Evaluate 'Promise.all(document.getAnimations().map(animation => animation.finished.catch(() => {}))).then(() => true)' | Out-Null
                 $suffix = if ($prefix) { '-prefix' } else { '' }
@@ -199,7 +236,7 @@ try {
                     $fullImage = Invoke-CDP 'Page.captureScreenshot' @{ format = 'png'; captureBeyondViewport = $true; clip = @{ x = 0; y = 0; width = 1280; height = $metrics.cssContentSize.height; scale = 1 } }
                     [IO.File]::WriteAllBytes((Join-Path $outputDir "$language-$theme-full.png"), [Convert]::FromBase64String($fullImage.data))
                 }
-                $results.Add("PASS $language $theme $prefix width=$width : responsive layout, unified menu, settings, portrait, contrast, filters and keyboard")
+                $results.Add("PASS $language $theme $prefix width=$width : sticky horizontal desktop navigation, mobile menu, logo, layout, contrast and keyboard")
             }
             Evaluate 'document.querySelector("details").open = true; window.location.hash = "projects"' | Out-Null
             Switch-Language $language
@@ -313,7 +350,7 @@ try {
 } catch {
     if ($script:socket -and $script:socket.State -eq [Net.WebSockets.WebSocketState]::Open) {
         try {
-            Evaluate '({url:location.href,ready:document.readyState,menu:document.querySelector(".menu-toggle")?.outerHTML,nav:document.querySelector("#navigation")?.outerHTML,active:document.activeElement?.outerHTML})' | ConvertTo-Json -Depth 5 | Write-Output
+            Evaluate '({url:location.href,ready:document.readyState,width:innerWidth,menu:document.querySelector(".menu-toggle")?.outerHTML,focusTrace:window.focusTrace,active:{tag:document.activeElement?.tagName,id:document.activeElement?.id}})' | ConvertTo-Json -Depth 5 | Write-Output
             $failureImage = Invoke-CDP 'Page.captureScreenshot' @{ format = 'png' }
             [IO.File]::WriteAllBytes((Join-Path $outputDir 'failure.png'), [Convert]::FromBase64String($failureImage.data))
             $script:errors | Write-Output

@@ -22,7 +22,9 @@ Sur un autre système, tout serveur de fichiers statiques peut servir `public/`.
 
 ## Choisir la langue
 
-Le bouton **Menu**, sur téléphone comme sur ordinateur, ouvre un panneau commun contenant les liens de navigation, le choix de langue **Français / English / Nederlands** et l’apparence **Clair / Sombre**. La langue et l’apparence restent à l’intérieur de ce menu. Le panneau se ferme avec Échap, un clic extérieur, le choix d’une section ou la sortie du focus ; les réglages restent accessibles par défilement sur un écran en paysage.
+Sur ordinateur, dès **1024 pixels**, une **barre horizontale toujours visible en haut pendant le défilement** réunit les rubriques, le choix de langue **Français / English / Nederlands** et l’apparence **Clair / Sombre**. Les réglages font partie du même ensemble que la navigation.
+
+Sur téléphone et lorsque la largeur est inférieure à 1024 pixels, le bouton **Menu** ouvre ces mêmes éléments dans un panneau vertical. Il se ferme avec Échap, un clic extérieur, le choix d’une section ou la sortie du focus ; les réglages restent accessibles par défilement sur un écran en paysage. Le redimensionnement conserve un focus clavier visible.
 
 Le changement de langue traduit le contenu, les libellés accessibles, le titre et la description, sans changer d’URL ni recharger la page. Les détails des projets et le focus sont conservés.
 
@@ -35,6 +37,8 @@ Le sélecteur d’apparence propose **Clair / Sombre**. Le mode clair emploie de
 Les textes courants font 17 à 18 pixels et les textes secondaires au moins 14 pixels. Les contrastes sont vérifiés dans les deux modes.
 
 L’en-tête reste compact sur toutes les largeurs. Les contenus suivent le même ordre sur téléphone et ordinateur ; les grilles se présentent en une colonne lorsque la largeur est limitée. L’accueil passe en une colonne sur tablette pour garder les textes et la photo lisibles.
+
+Le logo d’en-tête représente un signal reliant des nœuds réseau dans un hexagone, accompagné du nom Steve Aimé. Ce dessin vectoriel remplace le carré « SA. » et se retrouve dans l’icône de l’onglet. Il suit les couleurs du thème et reste indépendant de la photo.
 
 Le bilan affiché est de **2 projets livrés** (ELK, Nagios) et **1 projet en cours** (mesure de productivité liée à l’IA). Les manuels de configuration et d’utilisation ainsi que l’accompagnement sont mentionnés pour ELK ; aucun document privé n’est publié. Les expériences de stage réseau sont présentées séparément et ne sont pas ajoutées à ces compteurs.
 
@@ -66,7 +70,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Verify.ps1
 
 Le contrôle vérifie ressources locales, ancres, métadonnées, destinations externes et exclusion des documents privés. Il complète les essais navigateur de `docs/verification.md` ; il ne constitue pas un audit exhaustif.
 
-Bilan du 31 octobre 2026 pour la nouvelle photo et le menu commun : **96 scénarios locaux et 48 scénarios sur le site publié réussis sous Chrome**, aux largeurs de 320 à 1280 pixels, dans les trois langues et les deux thèmes. Le menu est aussi contrôlé en paysage à 844 × 390 pixels, au toucher et au clavier. Il s’agit de tailles émulées ; aucun essai sur téléphone physique n’a été effectué. Les détails et la preuve du déploiement figurent dans [le bilan de vérification](docs/verification.md).
+Bilan local du 31 octobre 2026 pour la barre horizontale et le nouveau logo : **108 scénarios réussis sous Chrome**, à neuf largeurs de 320 à 1280 pixels, dans les trois langues et les deux thèmes, à la racine et sous un préfixe. Le menu mobile est aussi contrôlé en paysage à 844 × 390 pixels, au toucher et au clavier. Le passage entre les dispositions conserve un focus visible. Il s’agit de tailles émulées ; aucun essai sur téléphone physique n’a été effectué. Les détails figurent dans [le bilan de vérification](docs/verification.md).
 
 Les essais navigateur utilisent Chrome ou Edge installé, le serveur local et un profil jetable dans `.local/`. Aucune dépendance à installer :
 

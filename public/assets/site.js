@@ -172,10 +172,12 @@ const navigation = document.querySelector('#navigation');
 if (menuButton && navigation) {
   menuButton.hidden = false;
   navigation.dataset.enhanced = 'true';
+  const desktopNavigation = window.matchMedia('(min-width: 1024px)');
   const setOpen = (open) => {
+    open = open && !desktopNavigation.matches;
     menuButton.setAttribute('aria-expanded', String(open));
     navigation.dataset.open = String(open);
-    if (!open && navigation.contains(document.activeElement)) menuButton.focus();
+    if (!open && !desktopNavigation.matches && navigation.contains(document.activeElement)) menuButton.focus();
   };
   menuButton.addEventListener('click', () => {
     setOpen(menuButton.getAttribute('aria-expanded') !== 'true');
@@ -190,9 +192,23 @@ if (menuButton && navigation) {
     }
   });
   document.addEventListener('click', (event) => {
-    if (!navigation.contains(event.target) && !menuButton.contains(event.target)) setOpen(false);
+    if (!navigation.contains(event.target) && !menuButton.contains(event.target)) {
+      setOpen(false);
+    }
   });
   document.addEventListener('focusin', (event) => {
     if (!navigation.contains(event.target) && !menuButton.contains(event.target)) setOpen(false);
   });
+  // Restore focus after CSS hides a control when the layout changes.
+  navigation.addEventListener('focusout', event => {
+    if (!event.relatedTarget && !desktopNavigation.matches && navigation.dataset.open !== 'true') requestAnimationFrame(() => {
+      if (!desktopNavigation.matches && navigation.dataset.open !== 'true') menuButton.focus();
+    });
+  });
+  menuButton.addEventListener('focusout', event => {
+    if (!event.relatedTarget && desktopNavigation.matches) requestAnimationFrame(() => {
+      if (desktopNavigation.matches) navigation.querySelector('a').focus();
+    });
+  });
+  desktopNavigation.addEventListener('change', () => setOpen(false));
 }

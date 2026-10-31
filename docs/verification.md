@@ -13,9 +13,9 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 | Métadonnées | Attribut lang, titre et description mis à jour avec la langue choisie ; CSP présente |
 | Confidentialité du CV | Aucun document original, PDF, copie, extraction ou téléchargement dans les fichiers publiables et candidats Git ; revue du contenu sélectionné |
 | Coordonnées | E-mail, LinkedIn et GitHub uniquement ; absence du téléphone et de l’adresse précise vérifiée |
-| Affichage | 96 scénarios locaux : 2 thèmes × 3 langues × 8 largeurs (320, 360, 390, 640, 768, 900, 1024, 1280) × 2 préfixes (racine et `/portfolio/`), sans débordement horizontal ; émulation mobile jusqu’à 640 pixels |
+| Affichage | 108 scénarios locaux : 2 thèmes × 3 langues × 9 largeurs (320, 360, 390, 640, 768, 900, 1023, 1024, 1280) × 2 préfixes (racine et `/portfolio/`), sans débordement horizontal ; émulation mobile jusqu’à 640 pixels |
 | Contrastes | Texte visible contrôlé sur ses fonds CSS, seuil 4,5:1 pour le texte courant et 3:1 pour le grand texte ; aucune insuffisance détectée par le contrôle ciblé |
-| Navigation | Menu commun sur téléphone et ordinateur, avec sections, langue et apparence à l’intérieur. En-tête de moins de 90 pixels, réglages masqués quand le menu est fermé ; liens et sélecteurs accessibles par Tab, fermeture avec Échap et retour du focus, sortie du focus, clic extérieur et choix de section vérifiés. Écran paysage 844 × 390 : panneau défilant, réglages accessibles et ouverture par appui tactile émulé vérifiés |
+| Navigation | Dès 1024 pixels, les cinq rubriques, la langue et l’apparence restent visibles dans une seule ligne horizontale, en haut pendant le défilement ; aucun bouton Menu à ouvrir. Sous 1024 pixels, menu vertical commun : réglages masqués quand il est fermé, Tab, Échap, retour du focus, clic extérieur et choix de section vérifiés. En-tête de moins de 90 pixels, focus visible au passage entre les dispositions. Écran paysage 844 × 390 : panneau défilant, réglages accessibles et appui tactile émulé vérifiés |
 | Traduction | Titres et libellés accessibles traduits ; états des détails et section courante conservés ; choix mémorisé après rechargement |
 | Détection de langue | Préférences en-GB, nl-BE, fr-BE, recherche de la première langue compatible, repli français, préférence manuelle prioritaire et valeur stockée invalide testés |
 | Stockage bloqué | Changement de langue fonctionnel malgré le blocage de localStorage |
@@ -32,7 +32,7 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 | Réseau navigateur | Aucune requête tierce, violation CSP ou exception JavaScript observée pendant les essais |
 | HTTP local | Pages et ressources : 200 ; route inconnue et `/AGENTS.md` : 404 |
 | En-têtes locaux | CSP avec `frame-ancestors`, nosniff, refus d’iframe, politique de référent et permissions vérifiés sur le serveur d’aperçu |
-| Revue visuelle | Captures du menu français clair/sombre à 360 pixels et de l’accueil français à 360 et 1280 pixels inspectées ; les revues des versions précédentes restent historiques |
+| Revue visuelle | Barre et logo inspectés en français à 1280 pixels dans les deux thèmes, à 1024 pixels en clair, ainsi que le menu vertical à 360 pixels en clair. Emblème vectoriel réseau sans lettres, repris dans le favicon ; aucune modification de la photo |
 
 Les sorties et captures du navigateur sont générées sous `.local/`, exclu de Git. Relancer les scripts permet de les reproduire. Les liens externes ont été contrôlés comme destinations, sans connexion aux comptes ni vérification du fonctionnement d’une messagerie locale.
 

@@ -40,7 +40,7 @@ Conserver le code source et la documentation sur GitHub afin de pouvoir consulte
 - Limiter les dépendances et les services tiers.
 - Conserver une seule page HTML avec menu FR/EN/NL : traduire le contenu sur place, y compris les libellés accessibles et métadonnées. Ne pas créer de page par langue ni appeler de service de traduction distant.
 - Prévoir un affichage adapté au mobile et à l’ordinateur.
-- Regrouper les liens de navigation, la langue et l’apparence dans un seul menu repliable, sur téléphone et ordinateur. Maintenir son accès clavier et l’accès aux réglages en écran court.
+- Regrouper les liens de navigation, la langue et l’apparence dans une seule barre horizontale toujours visible sur ordinateur, fixée en haut pendant le défilement. Sous 1024 pixels, utiliser un menu vertical repliable regroupant ces mêmes éléments. Maintenir l’accès clavier, le focus lors du redimensionnement et l’accès aux réglages en écran court.
 - Utiliser du HTML sémantique et une navigation accessible.
 - Assurer la lisibilité, les contrastes et le focus clavier.
 - Maintenir les modes clair et sombre, les textes lisibles et le thème choisi au changement de langue. Vérifier les contrastes dans les deux modes.

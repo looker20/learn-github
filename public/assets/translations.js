@@ -213,7 +213,9 @@ const portfolioTranslations = {
                "Autres expériences réseau":  "Other networking experience",
                "Travaux réalisés en stage, présentés séparément des deux projets livrés et du projet en cours.":  "Internship work, presented separately from the two delivered projects and the ongoing project.",
                "2":  "2",
-               "1":  "1"
+               "1":  "1",
+               "OpenShift":  "OpenShift",
+               "Déploiement et tests du monitoring applicatif réalisés sur OpenShift.":  "Application monitoring deployed and tested on OpenShift."
            },
     "nl":  {
                "Aller au contenu":  "Naar de inhoud",
@@ -426,6 +428,8 @@ const portfolioTranslations = {
                "Autres expériences réseau":  "Andere netwerkervaring",
                "Travaux réalisés en stage, présentés séparément des deux projets livrés et du projet en cours.":  "Stagewerk, afzonderlijk gepresenteerd van de twee opgeleverde projecten en het lopende project.",
                "2":  "2",
-               "1":  "1"
+               "1":  "1",
+               "OpenShift":  "OpenShift",
+               "Déploiement et tests du monitoring applicatif réalisés sur OpenShift.":  "Applicatiemonitoring uitgerold en getest op OpenShift."
            }
 };

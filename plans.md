@@ -33,6 +33,7 @@ Deux modes sélectionnables : clair en tons pierre/sauge et sombre en tons ardoi
 - Le schéma d’observabilité est conceptuel, pas une représentation du système interne.
 - Confirmé par le propriétaire : deux projets livrés, ELK et Nagios ; un projet en cours sur l’impact de l’usage de l’IA par les équipes de développement sur leur productivité.
 - La livraison ELK inclut un manuel de configuration, un manuel d’utilisation et une aide à la prise en main. Les documents ne sont pas fournis pour publication : les présenter sans lien de téléchargement fictif.
+- Le propriétaire confirme que le déploiement et les tests du monitoring applicatif ont été réalisés sur OpenShift. Présenter cette plateforme dans les technologies et la réalisation ELK, sans inventer de version, de topologie ou de procédure interne.
 - Aucun employeur, calendrier, résultat chiffré ou méthodologie supplémentaire n’est attribué aux nouveaux projets sans confirmation. Les stages réseau sont hors de ces compteurs.
 
 ## Réalisation

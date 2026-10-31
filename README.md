@@ -72,6 +72,8 @@ Le contrôle vérifie ressources locales, ancres, métadonnées, destinations ex
 
 Bilan du 31 octobre 2026 pour la barre horizontale et le nouveau logo : **108 scénarios locaux et 54 scénarios sur le site publié réussis sous Chrome**, à neuf largeurs de 320 à 1280 pixels, dans les trois langues et les deux thèmes. Les essais locaux couvrent la racine et un préfixe. Le menu mobile est aussi contrôlé en paysage à 844 × 390 pixels, au toucher et au clavier. Le passage entre les dispositions conserve un focus visible. Il s’agit de tailles émulées ; aucun essai sur téléphone physique n’a été effectué. Les détails et la preuve de publication figurent dans [le bilan de vérification](docs/verification.md).
 
+Ces tests ont été relancés à la demande du propriétaire le **31 octobre 2026, de 18:57 à 19:02** : 108 scénarios locaux et 54 sur le site public réussis, vérifications statiques et HTTPS réussies, aucune correction du code nécessaire. Voir [le rapport de cette campagne et ses limites](docs/test-report-2026-10-31.md), notamment les navigateurs non testés et les en-têtes HTTP absents en production.
+
 Les essais navigateur utilisent Chrome ou Edge installé, le serveur local et un profil jetable dans `.local/`. Aucune dépendance à installer :
 
 ```powershell

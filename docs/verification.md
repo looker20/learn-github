@@ -6,6 +6,8 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 
 ## Contrôles effectués
 
+Une nouvelle campagne complète a été exécutée à la demande du propriétaire le 31 octobre 2026, de 18:57 à 19:02, sur la révision `0a4fa88874f95a329fe58304a3ca9d06e4a6d60a` : 108 scénarios locaux et 54 publics réussis, contrôles statiques et HTTP réussis, aucune correction du code nécessaire. Le [rapport de tests](test-report-2026-10-31.md) précise les résultats, traces et limites, dont les en-têtes de production toujours absents et les essais sur appareils physiques non effectués.
+
 | Contrôle | Résultat et preuve |
 | --- | --- |
 | Structure statique | 9 fichiers publiables : une page HTML, CSS, initialisation du thème, navigation/traduction, catalogue de traductions, favicon SVG, portrait JPEG, robots.txt et sitemap.xml ; aucune dépendance d’exécution |

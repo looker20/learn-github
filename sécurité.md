@@ -35,7 +35,7 @@ GitHub Pages ne permet pas à ce workflow de personnaliser les en-têtes HTTP. L
 
 Le CV sert uniquement de source privée : aucun original, copie, PDF, transcription intégrale, extraction intermédiaire ni lien de téléchargement dans le dépôt ou le site. Le téléphone et l’adresse précise sont exclus ; l’e-mail et les liens professionnels sont autorisés. Examiner les captures, schémas, dépôts, démonstrations et leurs métadonnées. Retirer ou anonymiser les noms de clients non autorisés, adresses internes, identifiants, données personnelles et jetons. Vérifier les contenus liés et conserver une trace non sensible des autorisations de publication.
 
-La publication du portrait retouché a été explicitement demandée. Seul le JPEG optimisé sans EXIF est versionné ; la photo originale reste hors du dépôt. Les nouvelles interactions s’exécutent localement dans le navigateur, sans transmission ni service tiers.
+La publication de la photo fournie pour correspondre au profil LinkedIn a été explicitement demandée. Elle remplace le portrait retouché précédent : seul ce JPEG autorisé, sans EXIF et sans nouvelle retouche, est copié dans les ressources publiques. Le fichier source reste dans son emplacement personnel. Le menu et les autres interactions s’exécutent localement dans le navigateur, sans transmission ni service tiers.
 
 ## Préparation de la restauration et des incidents
 

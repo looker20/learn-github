@@ -23,7 +23,7 @@ Une seule page avec un menu Français / English / Nederlands qui traduit le cont
 
 Dans la présentation À propos, utiliser le nom court « Steve Djieutcheu ». Le portrait est affiché sans monogramme superposé.
 
-Deux modes sélectionnables : clair en tons pierre/sauge et sombre en tons ardoise/vert doux. Textes courants de 17 à 18 pixels, textes secondaires d’au moins 14 pixels. Le choix suit d’abord le système puis la préférence manuelle mémorisée, indépendamment de la langue. Portrait professionnel retouché intégré à l’accueil ; l’original reste hors du dépôt. Aucun résultat chiffré, niveau d’expertise, témoignage ou certification inventé.
+Deux modes sélectionnables : clair en tons pierre/sauge et sombre en tons ardoise/vert doux. Textes courants de 17 à 18 pixels, textes secondaires d’au moins 14 pixels. Le choix suit d’abord le système puis la préférence manuelle mémorisée, indépendamment de la langue. La photo fournie pour correspondre au profil LinkedIn remplace le portrait retouché à l’accueil : même cadrage carré sur téléphone et ordinateur, aucune nouvelle retouche ni monogramme. Le fichier source reste dans son emplacement personnel ; seule la photo autorisée est copiée dans les ressources du site. Aucun résultat chiffré, niveau d’expertise, témoignage ou certification inventé.
 
 ## Informations confirmées et limites
 
@@ -44,7 +44,8 @@ Deux modes sélectionnables : clair en tons pierre/sauge et sombre en tons ardoi
 - Traductions éditoriales locales, langue du navigateur au premier accès, choix manuel mémorisé et prioritaire. Français de repli si la langue est inconnue ou JavaScript désactivé.
 - Fichiers publiables isolés dans `public/` ; ressources locales uniquement.
 - Liens relatifs compatibles avec un déploiement sous un préfixe.
-- Navigation mobile améliorée par JavaScript, avec liens visibles sans JavaScript.
+- Menu unique repliable sur tous les écrans, regroupant navigation, langue et apparence. Réglages masqués tant que le menu est fermé ; fermeture par Échap, clic extérieur ou sortie du focus. Le panneau défile sur écran court. Sans JavaScript, les liens restent visibles et les réglages inactifs sont masqués.
+- Même ordre du contenu à toutes les largeurs, grilles ramenées à une colonne sur téléphone et accueil à une colonne sur tablette ; en-tête compact sans rangée de réglages séparée.
 - Animations finies d’entrée et de défilement, survol des cartes, indicateur de lecture et section active. Respect du mouvement réduit ; le contenu n’est pas caché en cas d’échec d’animation.
 - Filtres de réalisations utilisables au clavier, avec état et nombre de résultats annoncés ; changement de langue conservant le filtre sélectionné.
 - Structure sémantique, accès clavier, focus visible et mouvement réduit.

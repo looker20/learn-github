@@ -175,6 +175,7 @@ if (menuButton && navigation) {
   const setOpen = (open) => {
     menuButton.setAttribute('aria-expanded', String(open));
     navigation.dataset.open = String(open);
+    if (!open && navigation.contains(document.activeElement)) menuButton.focus();
   };
   menuButton.addEventListener('click', () => {
     setOpen(menuButton.getAttribute('aria-expanded') !== 'true');
@@ -191,5 +192,7 @@ if (menuButton && navigation) {
   document.addEventListener('click', (event) => {
     if (!navigation.contains(event.target) && !menuButton.contains(event.target)) setOpen(false);
   });
-  window.matchMedia('(min-width: 901px)').addEventListener('change', () => setOpen(false));
+  document.addEventListener('focusin', (event) => {
+    if (!navigation.contains(event.target) && !menuButton.contains(event.target)) setOpen(false);
+  });
 }

@@ -13,9 +13,9 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 | Métadonnées | Attribut lang, titre et description mis à jour avec la langue choisie ; CSP présente |
 | Confidentialité du CV | Aucun document original, PDF, copie, extraction ou téléchargement dans les fichiers publiables et candidats Git ; revue du contenu sélectionné |
 | Coordonnées | E-mail, LinkedIn et GitHub uniquement ; absence du téléphone et de l’adresse précise vérifiée |
-| Affichage | 36 scénarios locaux : 2 thèmes × 3 langues × 3 largeurs (360, 768, 1280) × 2 préfixes (racine et `/portfolio/`), sans débordement horizontal |
+| Affichage | 96 scénarios locaux : 2 thèmes × 3 langues × 8 largeurs (320, 360, 390, 640, 768, 900, 1024, 1280) × 2 préfixes (racine et `/portfolio/`), sans débordement horizontal ; émulation mobile jusqu’à 640 pixels |
 | Contrastes | Texte visible contrôlé sur ses fonds CSS, seuil 4,5:1 pour le texte courant et 3:1 pour le grand texte ; aucune insuffisance détectée par le contrôle ciblé |
-| Navigation | Menu mobile au clavier, fermeture avec Échap et retour du focus, navigation vers une section ; menu FR/EN/NL sans navigation, changement d’URL ni remplacement du contenu DOM |
+| Navigation | Menu commun sur téléphone et ordinateur, avec sections, langue et apparence à l’intérieur. En-tête de moins de 90 pixels, réglages masqués quand le menu est fermé ; liens et sélecteurs accessibles par Tab, fermeture avec Échap et retour du focus, clic extérieur et choix de section vérifiés. Écran paysage 844 × 390 : panneau défilant et réglages accessibles |
 | Traduction | Titres et libellés accessibles traduits ; états des détails et section courante conservés ; choix mémorisé après rechargement |
 | Détection de langue | Préférences en-GB, nl-BE, fr-BE, recherche de la première langue compatible, repli français, préférence manuelle prioritaire et valeur stockée invalide testés |
 | Stockage bloqué | Changement de langue fonctionnel malgré le blocage de localStorage |
@@ -24,7 +24,7 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 | Réalisations | Ouverture des détails avec la touche Entrée |
 | Accès rapide | Lien d’évitement utilisable au clavier et focus visible |
 | Sans JavaScript | Navigation visible et contenu français lisible à 360 pixels ; menu de langue masqué |
-| Portrait | JPEG 800 × 1000, 107 272 octets, sans EXIF ; chargé aux trois largeurs, texte alternatif traduit ; photo originale exclue du dépôt |
+| Portrait | Photo fournie pour correspondre au profil LinkedIn : JPEG carré 1372 × 1372, 114 761 octets, sans EXIF ; copie exacte sans nouvelle retouche ni monogramme, chargement et texte alternatif traduit vérifiés. Empreinte dans `docs/portrait.md` |
 | Filtres | 2 projets livrés (ELK et Nagios), 1 projet IA en cours et 2 expériences réseau de stage ; les compteurs excluent les stages. Filtres par état et domaine, raccourcis des compteurs, conservation au changement de langue et annonce accessible traduite vérifiés |
 | Thèmes et lisibilité | Clair pierre/sauge et sombre ardoise/vert ; textes visibles d’au moins 14 pixels et corps de 17–18 pixels ; contrastes vérifiés dans les deux modes. Choix mémorisé, priorité sur le système, valeurs invalides et stockage bloqué testés |
 | Interactions et mouvement | Progression de lecture mise à jour, section active indiquée, apparition au défilement ; aucune animation ou transformation persistante en mode mouvement réduit |
@@ -32,7 +32,7 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 | Réseau navigateur | Aucune requête tierce, violation CSP ou exception JavaScript observée pendant les essais |
 | HTTP local | Pages et ressources : 200 ; route inconnue et `/AGENTS.md` : 404 |
 | En-têtes locaux | CSP avec `frame-ancestors`, nosniff, refus d’iframe, politique de référent et permissions vérifiés sur le serveur d’aperçu |
-| Revue visuelle | Captures néerlandaises mobile et bureau inspectées ; revue de la page française complète effectuée lors de la version précédente |
+| Revue visuelle | Captures du menu français clair/sombre à 360 pixels et de l’accueil français à 360 et 1280 pixels inspectées ; les revues des versions précédentes restent historiques |
 
 Les sorties et captures du navigateur sont générées sous `.local/`, exclu de Git. Relancer les scripts permet de les reproduire. Les liens externes ont été contrôlés comme destinations, sans connexion aux comptes ni vérification du fonctionnement d’une messagerie locale.
 
@@ -69,7 +69,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Test-Browser.ps1 -Ba
 - La procédure de retour arrière est documentée, mais aucun retour arrière du site en ligne n’a été exécuté.
 - La description des missions repose sur le CV et les confirmations de dates. Aucune preuve interne ou mesure de performance n’est publiée.
 - Les noms d’entreprises sont ceux des expériences demandées pour le portfolio ; leur présence n’implique aucun partenariat ni soutien.
-- Le portrait est une retouche générative à partir de la photo fournie, inspectée visuellement. Voir `docs/portrait.md` pour la consigne et le traitement du fichier.
+- Le portrait actuel est le fichier fourni par le propriétaire pour correspondre à son profil LinkedIn, copié sans nouvelle retouche. Aucun accès au compte LinkedIn n’a été effectué ; la correspondance repose sur sa confirmation. L’ancienne retouche générative n’est plus affichée : voir `docs/portrait.md`.
 
 ## Reproduire les essais
 

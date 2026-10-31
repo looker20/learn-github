@@ -67,12 +67,20 @@ function Press-Key([string]$Key, [string]$Code, [int]$VirtualKey) {
     Invoke-CDP 'Input.dispatchKeyEvent' @{ type = 'keyUp'; key = $Key; code = $Code; windowsVirtualKeyCode = $VirtualKey } | Out-Null
 }
 function Switch-Language([ValidateSet('fr', 'en', 'nl')][string]$Language) {
+    Open-Menu
     $samePage = Evaluate "(() => { const main = document.querySelector('main'), url = location.href, select = document.querySelector('#language'); select.focus(); select.value = '$Language'; select.dispatchEvent(new Event('change', { bubbles: true })); return main === document.querySelector('main') && url === location.href && document.activeElement === select; })()"
     Assert-True $samePage 'Language change replaced the page, URL or focus'
 }
 function Switch-Theme([ValidateSet('light', 'dark')][string]$Theme) {
+    Open-Menu
     $samePage = Evaluate "(() => { const main = document.querySelector('main'), url = location.href, select = document.querySelector('#theme'); select.focus(); select.value = '$Theme'; select.dispatchEvent(new Event('change', { bubbles: true })); return main === document.querySelector('main') && url === location.href && document.activeElement === select && document.documentElement.dataset.theme === '$Theme'; })()"
     Assert-True $samePage 'Theme change failed or replaced page, URL or focus'
+}
+function Open-Menu {
+    Evaluate 'if (document.querySelector(".menu-toggle").getAttribute("aria-expanded") !== "true") document.querySelector(".menu-toggle").click()' | Out-Null
+}
+function Close-Menu {
+    Evaluate 'if (document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "true") document.querySelector(".menu-toggle").click()' | Out-Null
 }
 try {
     $arguments = @('--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check', '--remote-debugging-port=0', ('--user-data-dir="' + $profilePath + '"'), 'about:blank')
@@ -91,11 +99,13 @@ try {
         foreach ($theme in @('light', 'dark')) {
         foreach ($language in @('fr', 'en', 'nl')) {
             $path = '/index.html'
-            foreach ($width in @(360, 768, 1280)) {
-                Invoke-CDP 'Emulation.setDeviceMetricsOverride' @{ width = $width; height = 900; deviceScaleFactor = 1; mobile = $false } | Out-Null
+            foreach ($width in @(320, 360, 390, 640, 768, 900, 1024, 1280)) {
+                Invoke-CDP 'Emulation.setDeviceMetricsOverride' @{ width = $width; height = 900; deviceScaleFactor = 1; mobile = ($width -le 640) } | Out-Null
                 Navigate ($BaseUrl + $prefix + $path)
+                Assert-True (Evaluate 'document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false" && getComputedStyle(document.querySelector("#navigation")).display === "none" && document.querySelector("#language").getClientRects().length === 0 && document.querySelector("#theme").getClientRects().length === 0 && document.querySelector(".site-header").getBoundingClientRect().height < 90') 'Closed menu exposes settings or header is too tall'
                 Switch-Language $language
                 Switch-Theme $theme
+                Assert-True (Evaluate 'document.querySelector("#navigation").contains(document.querySelector("#language")) && document.querySelector("#navigation").contains(document.querySelector("#theme")) && document.querySelector("#navigation").getBoundingClientRect().left >= 0 && document.querySelector("#navigation").getBoundingClientRect().right <= innerWidth && document.querySelector("#navigation").scrollWidth <= document.querySelector("#navigation").clientWidth') 'Unified menu does not contain its settings or overflows'
                 Assert-True ((Evaluate 'document.documentElement.lang') -eq $language) 'Incorrect language'
                 Assert-True (Evaluate 'Object.keys(portfolioTranslations.en).every(key => typeof portfolioTranslations.nl[key] === "string" && portfolioTranslations.nl[key].length > 0)') 'Incomplete translation catalogue'
                 $expectedHeading = @{ fr = 'Comprendre les'; en = 'Understand systems'; nl = 'Systemen begrijpen' }[$language]
@@ -104,7 +114,7 @@ try {
                 Assert-True ((Evaluate 'document.querySelector("label[for=language]").textContent') -eq $expectedLabel) 'Accessible language label not translated'
                 $expectedAlt = @{ fr = 'Portrait professionnel de Steve Aimé'; en = 'Professional portrait of Steve Aimé'; nl = 'Professioneel portret van Steve Aimé' }[$language]
                 Assert-True ((Evaluate 'document.querySelector(".portrait-frame img").alt') -eq $expectedAlt) 'Portrait alternative text not translated'
-                Assert-True (Evaluate 'document.querySelector(".portrait-frame img").complete && document.querySelector(".portrait-frame img").naturalWidth === 800') 'Portrait did not load'
+                Assert-True (Evaluate 'document.querySelector(".portrait-frame img").complete && document.querySelector(".portrait-frame img").naturalWidth === 1372 && document.querySelector(".portrait-frame img").naturalHeight === 1372 && !document.querySelector(".portrait-stamp")') 'LinkedIn portrait did not load or has a monogram'
                 $overflow = Evaluate '({width:innerWidth,scroll:document.documentElement.scrollWidth})'
                 Assert-True ($overflow.scroll -le $overflow.width) "Horizontal overflow: $language $prefix $width"
                 Assert-True (Evaluate 'Array.from(document.styleSheets).some(s => s.cssRules.length > 20)') 'Stylesheet not loaded'
@@ -128,6 +138,11 @@ try {
 })()
 '@
                 Assert-True (@($contrastFailures).Count -eq 0) ('Text contrast failed: ' + ($contrastFailures | ConvertTo-Json -Compress))
+                if (-not $prefix -and $language -eq 'fr' -and $width -in @(360, 1280)) {
+                    $menuImage = Invoke-CDP 'Page.captureScreenshot' @{ format = 'png'; captureBeyondViewport = $false }
+                    [IO.File]::WriteAllBytes((Join-Path $outputDir "menu-$theme-$width.png"), [Convert]::FromBase64String($menuImage.data))
+                }
+                Close-Menu
                 Evaluate 'document.querySelector("[data-project-filter=network]").focus()' | Out-Null
                 Press-Key 'Enter' 'Enter' 13
                 Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 2 && document.querySelector("[data-project-filter=network]").getAttribute("aria-pressed") === "true"') 'Keyboard project filter failed'
@@ -146,15 +161,27 @@ try {
                 Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 1 && document.querySelector("[data-project-topic=ai]").hidden === false') 'Ongoing-project summary filter failed'
                 Evaluate 'document.querySelector("[data-project-filter=all]").click()' | Out-Null
                 Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 5 && !document.querySelector("[data-project-group=academic]").hidden') 'All-projects filter failed'
-                if ($width -lt 901) {
-                    Evaluate 'document.querySelector(".menu-toggle").focus()' | Out-Null
-                    Press-Key 'Enter' 'Enter' 13
-                    Assert-True (Evaluate 'document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "true" && getComputedStyle(document.querySelector("#navigation")).display !== "none"') 'Keyboard menu open failed'
-                    Press-Key 'Escape' 'Escape' 27
-                    Assert-True (Evaluate 'document.activeElement.matches(".menu-toggle") && document.activeElement.getAttribute("aria-expanded") === "false"') 'Menu escape/focus failed'
-                    Evaluate 'document.querySelector(".menu-toggle").click(); document.querySelector("#navigation a").click()' | Out-Null
-                    Assert-True (Evaluate 'location.hash === "#about" && document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false"') 'Menu anchor failed'
-                }
+                Close-Menu
+                Evaluate 'document.querySelector(".menu-toggle").focus()' | Out-Null
+                Press-Key 'Enter' 'Enter' 13
+                Assert-True (Evaluate 'document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "true" && getComputedStyle(document.querySelector("#navigation")).display !== "none"') 'Keyboard menu open failed'
+                Press-Key 'Tab' 'Tab' 9
+                Assert-True (Evaluate 'document.activeElement.matches("#navigation a")') 'Menu links not reachable by Tab'
+                for ($tabIndex = 0; $tabIndex -lt 5; $tabIndex++) { Press-Key 'Tab' 'Tab' 9 }
+                Assert-True (Evaluate 'document.activeElement.matches("#language")') 'Language selector not reachable by Tab'
+                Press-Key 'Tab' 'Tab' 9
+                Assert-True (Evaluate 'document.activeElement.matches("#theme")') 'Theme selector not reachable by Tab'
+                Press-Key 'Escape' 'Escape' 27
+                Assert-True (Evaluate 'document.activeElement.matches(".menu-toggle") && document.activeElement.getAttribute("aria-expanded") === "false"') 'Menu escape/focus failed'
+                Open-Menu
+                Evaluate 'document.querySelector("#theme").focus()' | Out-Null
+                Press-Key 'Tab' 'Tab' 9
+                Assert-True (Evaluate 'document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false" && !document.activeElement.closest("#navigation")') 'Leaving menu by Tab did not close it or lost focus'
+                Evaluate 'document.querySelector(".menu-toggle").click(); document.querySelector("#navigation a").click()' | Out-Null
+                Assert-True (Evaluate 'location.hash === "#about" && document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false"') 'Menu anchor failed'
+                Open-Menu
+                Evaluate 'document.querySelector(".hero-role").click()' | Out-Null
+                Assert-True (Evaluate 'document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false"') 'Outside click did not close menu'
                 Evaluate 'document.querySelector("summary").focus()' | Out-Null
                 Press-Key 'Enter' 'Enter' 13
                 Assert-True (Evaluate 'document.querySelector("details").open') 'Project details keyboard interaction failed'
@@ -172,7 +199,7 @@ try {
                     $fullImage = Invoke-CDP 'Page.captureScreenshot' @{ format = 'png'; captureBeyondViewport = $true; clip = @{ x = 0; y = 0; width = 1280; height = $metrics.cssContentSize.height; scale = 1 } }
                     [IO.File]::WriteAllBytes((Join-Path $outputDir "$language-$theme-full.png"), [Convert]::FromBase64String($fullImage.data))
                 }
-                $results.Add("PASS $language $theme $prefix width=$width : layout, readable type, contrast, project counters, filters and keyboard")
+                $results.Add("PASS $language $theme $prefix width=$width : responsive layout, unified menu, settings, portrait, contrast, filters and keyboard")
             }
             Evaluate 'document.querySelector("details").open = true; window.location.hash = "projects"' | Out-Null
             Switch-Language $language
@@ -227,10 +254,27 @@ try {
         Assert-True (Evaluate 'getComputedStyle(document.querySelector("#navigation")).display !== "none" && document.querySelector(".menu-toggle").hidden') 'No-JavaScript navigation failed'
         Assert-True (Evaluate 'document.documentElement.scrollWidth <= innerWidth') 'No-JavaScript overflow'
         Assert-True (Evaluate 'document.querySelector(".language-switch").hidden && document.documentElement.lang === "fr"') 'No-JavaScript fallback failed'
-        Assert-True (Evaluate 'document.querySelector(".project-filters").hidden && document.querySelector(".theme-switch").hidden && document.querySelectorAll("[data-project-topic]:not([hidden])").length === 5 && document.querySelector(".portrait-frame img").naturalWidth === 800') 'No-JavaScript portrait or projects unavailable'
+        Assert-True (Evaluate 'document.querySelector(".project-filters").hidden && document.querySelector(".theme-switch").hidden && document.querySelectorAll("[data-project-topic]:not([hidden])").length === 5 && document.querySelector(".portrait-frame img").naturalWidth === 1372') 'No-JavaScript portrait or projects unavailable'
         $results.Add("PASS $language without JavaScript: visible navigation and readable layout")
         Invoke-CDP 'Emulation.setScriptExecutionDisabled' @{ value = $false } | Out-Null
     }
+    foreach ($landscapeTheme in @('light', 'dark')) {
+        Invoke-CDP 'Emulation.setDeviceMetricsOverride' @{ width = 844; height = 390; deviceScaleFactor = 1; mobile = $true } | Out-Null
+        Navigate ($BaseUrl + '/index.html')
+        Switch-Theme $landscapeTheme
+        Assert-True (Evaluate 'document.querySelector("#theme").getBoundingClientRect().bottom <= innerHeight && document.querySelector("#navigation").scrollHeight > document.querySelector("#navigation").clientHeight && document.documentElement.scrollWidth <= innerWidth') 'Landscape menu settings cannot be reached by scrolling'
+        Close-Menu
+        Invoke-CDP 'Emulation.setTouchEmulationEnabled' @{ enabled = $true; maxTouchPoints = 1 } | Out-Null
+        $tapPoint = Evaluate '(() => { const rect = document.querySelector(".menu-toggle").getBoundingClientRect(); return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }; })()'
+        Invoke-CDP 'Input.dispatchTouchEvent' @{ type = 'touchStart'; touchPoints = @(@{ x = $tapPoint.x; y = $tapPoint.y }) } | Out-Null
+        Invoke-CDP 'Input.dispatchTouchEvent' @{ type = 'touchEnd'; touchPoints = @() } | Out-Null
+        Evaluate 'new Promise(resolve => setTimeout(resolve, 100))' | Out-Null
+        Assert-True (Evaluate 'document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "true"') 'Touch tap did not open the menu'
+        Close-Menu
+        Invoke-CDP 'Emulation.setTouchEmulationEnabled' @{ enabled = $false } | Out-Null
+    }
+    $results.Add('PASS short landscape viewport: scrollable menu, reachable settings, touch tap, no horizontal overflow')
+    Invoke-CDP 'Emulation.setDeviceMetricsOverride' @{ width = 360; height = 900; deviceScaleFactor = 1; mobile = $false } | Out-Null
     Navigate ($BaseUrl + '/index.html')
     Press-Key 'Tab' 'Tab' 9
     Assert-True (Evaluate 'document.activeElement.matches(".skip-link") && getComputedStyle(document.activeElement).outlineStyle !== "none"') 'Skip link/focus failed'

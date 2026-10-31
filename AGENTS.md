@@ -2,7 +2,7 @@
 
 ## Objectif du projet
 
-Créer un portfolio professionnel bilingue français/anglais présentant mon profil d’ingénieur IT orienté infrastructures et observabilité, mes compétences, mes activités, mon parcours et mes réalisations, dont mon expérience DevSecOps.
+Créer un portfolio professionnel trilingue français/anglais/néerlandais présentant mon profil d’ingénieur IT orienté infrastructures et observabilité, mes compétences, mes activités, mon parcours et mes réalisations, dont mon expérience DevSecOps.
 
 Conserver le code source et la documentation sur GitHub afin de pouvoir consulter le projet, le récupérer et poursuivre son développement depuis différents ordinateurs.
 
@@ -38,6 +38,7 @@ Conserver le code source et la documentation sur GitHub afin de pouvoir consulte
 
 - Privilégier un site statique pour la première version.
 - Limiter les dépendances et les services tiers.
+- Conserver une seule page HTML avec menu FR/EN/NL : traduire le contenu sur place, y compris les libellés accessibles et métadonnées. Ne pas créer de page par langue ni appeler de service de traduction distant.
 - Prévoir un affichage adapté au mobile et à l’ordinateur.
 - Utiliser du HTML sémantique et une navigation accessible.
 - Assurer la lisibilité, les contrastes et le focus clavier.

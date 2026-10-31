@@ -25,8 +25,8 @@ Après validation de HTTPS et de tous les services concernés, activer progressi
 - Vérifier MFA, récupération des comptes, droits GitHub, DNS et domaine éventuel.
 - Définir les alertes et le retour à une version saine ; tester la restauration.
 - Relire les informations professionnelles et autorisations de publication.
-- Vérifier les deux langues, les liens et le comportement mobile sur l’URL réelle.
-- Ajouter les URL canoniques, les alternates absolus et le sitemap lorsque le domaine et le chemin sont connus.
+- Vérifier les trois langues, le sélecteur sans navigation et le comportement mobile sur l’URL réelle.
+- Ajouter l’URL canonique et le sitemap lorsque le domaine et le chemin sont connus. Les langues partagent une seule URL : ne pas annoncer de pages linguistiques distinctes avec hreflang.
 - Préciser les informations de confidentialité liées à l’hébergeur : celui-ci peut produire des journaux techniques même si le site n’utilise aucun outil de suivi.
 
 Références : [OWASP HTTP Headers](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html), [OWASP CSP](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html).

@@ -2,7 +2,7 @@
 
 ## Périmètre et responsabilités
 
-La première version définie dans [plans.md](plans.md) est un portfolio statique bilingue destiné au public mais non hébergé à cette étape. Aucun compte visiteur, formulaire, base de données, téléversement ni serveur de production administré. Contact par e-mail, LinkedIn et GitHub. Toute extension impose de réévaluer les mesures conditionnelles.
+La première version définie dans [plans.md](plans.md) est un portfolio statique trilingue sur une seule page, destiné au public mais non hébergé à cette étape. Aucun compte visiteur, formulaire, base de données, téléversement ni serveur de production administré. Contact par e-mail, LinkedIn et GitHub. Seule la préférence de langue est mémorisée localement, sans transmission. Les traductions sont locales et ne passent pas par un service tiers. Toute extension impose de réévaluer les mesures conditionnelles.
 
 Le propriétaire gère les comptes, le domaine, les autorisations et les décisions de risque. L’agent prépare le code, la configuration et les vérifications accessibles. Les protections déléguées à un hébergeur restent à confirmer et à vérifier.
 

@@ -7,6 +7,7 @@ function Assert-True($Condition, $Message) {
 }
 $files = @(Get-ChildItem -LiteralPath $publicRoot -Recurse -File)
 Assert-True ($files.Count -gt 0) 'No public files found'
+Assert-True (@($files | Where-Object Extension -eq '.html').Count -eq 1) 'Expected a single HTML page'
 foreach ($file in $files) {
     Assert-True ($file.Extension -in @('.html', '.css', '.js', '.svg')) "Unexpected public file: $($file.Name)"
     $text = [IO.File]::ReadAllText($file.FullName)
@@ -19,6 +20,7 @@ foreach ($file in $files) {
     Assert-True (($ids | Select-Object -Unique).Count -eq $ids.Count) "Duplicate IDs: $($file.FullName)"
     Assert-True (([regex]::Matches($text, '<h1\b')).Count -eq 1) "Expected one h1: $($file.FullName)"
     Assert-True ($text -match '<html lang="(?:fr|en)"') 'Missing page language'
+    Assert-True ($text -match '<select id="language"' -and $text -match 'value="fr"' -and $text -match 'value="en"' -and $text -match 'value="nl"') 'Missing three-language selector'
     Assert-True ($text -match 'name="description"' -and $text -match 'Content-Security-Policy') 'Missing metadata or CSP'
     foreach ($match in [regex]::Matches($text, '(?:href|src)="([^"]+)"')) {
         $link = $match.Groups[1].Value

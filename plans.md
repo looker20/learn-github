@@ -2,7 +2,7 @@
 
 ## Objectif et périmètre validés
 
-Créer un portfolio bilingue français/anglais pour les recruteurs et responsables techniques, centré sur les infrastructures IT, l’observabilité et l’automatisation. Présenter également l’expérience DevSecOps de Steve Aimé.
+Créer un portfolio trilingue français/anglais/néerlandais pour les recruteurs et responsables techniques, centré sur les infrastructures IT, l’observabilité et l’automatisation. Présenter également l’expérience DevSecOps de Steve Aimé.
 
 Livrer les fichiers dans le dépôt `looker20/learn-github` et les envoyer sur GitHub. L’hébergement public et le domaine feront l’objet d’une étape ultérieure. Aucun compte visiteur, base de données, formulaire ou serveur de production à administrer.
 
@@ -12,7 +12,7 @@ Le CV fourni est une source privée pour rédiger une sélection de contenus pro
 
 ## Structure et identité
 
-Une page française et une page anglaise avec les mêmes sections et un sélecteur de langue :
+Une seule page avec un menu Français / English / Nederlands qui traduit le contenu sur place, sans rechargement, navigation ou changement d’URL :
 
 1. Accueil : titre, introduction et liens vers les réalisations et le contact.
 2. Présentation : synthèse du parcours et intérêts professionnels.
@@ -35,6 +35,7 @@ Fond clair, bleu profond, accents turquoise, typographie système et monogramme 
 ## Réalisation
 
 - HTML, CSS et JavaScript minimal, sans framework, paquet ni compilation.
+- Traductions éditoriales locales, langue du navigateur au premier accès, choix manuel mémorisé et prioritaire. Français de repli si la langue est inconnue ou JavaScript désactivé.
 - Fichiers publiables isolés dans `public/` ; ressources locales uniquement.
 - Liens relatifs compatibles avec un déploiement sous un préfixe.
 - Navigation mobile améliorée par JavaScript, avec liens visibles sans JavaScript.
@@ -45,9 +46,9 @@ Fond clair, bleu profond, accents turquoise, typographie système et monogramme 
 ## Vérifications et livraison
 
 - Exécuter `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Verify.ps1`.
-- Vérifier les deux langues, les dates, les ancres et les liens.
+- Vérifier les trois langues, les dates, les ancres et les liens.
 - Vérifier l’absence du CV, de copies et de coordonnées exclues dans les fichiers publiables et les fichiers destinés à Git.
-- Tester le navigateur à 360, 768 et 1280 pixels, le clavier, les détails des projets, le menu, les liens de langue et la lecture sans JavaScript.
+- Tester le navigateur à 360, 768 et 1280 pixels, le clavier, les détails des projets, le menu, la traduction sans navigation et la préférence mémorisée ; vérifier le repli français sans JavaScript.
 - Contrôler les chemins à la racine et sous `/portfolio/` avec le serveur local.
 - Documenter les résultats réels et les limites dans `docs/verification.md`.
 - Mettre à jour le README et les mesures applicables de `sécurité.md`.

@@ -1,6 +1,6 @@
 ﻿# Steve Aimé — Portfolio IT et observabilité
 
-Portfolio statique bilingue **français / anglais** : présentation, expertises, réalisations, parcours et contact. HTML, CSS et JavaScript minimal, sans dépendance externe ni compilation.
+Portfolio statique trilingue **français / anglais / néerlandais**, sur une seule page : présentation, expertises, réalisations, parcours et contact. HTML, CSS et JavaScript minimal, sans dépendance externe ni compilation.
 
 ## Ouvrir le site
 
@@ -18,10 +18,16 @@ Le même site est accessible sous **http://127.0.0.1:8080/portfolio/** pour vér
 
 Sur un autre système, tout serveur de fichiers statiques peut servir `public/`. Aucun secret ou variable d’environnement n’est nécessaire.
 
+## Choisir la langue
+
+Le menu propose Français, English et Nederlands. Le changement traduit le contenu, les libellés accessibles, le titre et la description, sans changer d’URL ni recharger la page. Les détails des projets et le focus sont conservés.
+
+Au premier accès, le site utilise la première langue prise en charge dans les préférences du navigateur (dont en-GB, nl-BE et fr-BE), sinon le français. Le choix manuel est conservé dans `localStorage` sous `portfolio-language` et devient prioritaire. Si le stockage est bloqué, le changement fonctionne pour la visite en cours. Sans JavaScript, le contenu français et la navigation restent lisibles ; le menu de langue est masqué.
+
 ## Organisation
 
-- `public/index.html` : version française.
-- `public/en/index.html` : version anglaise.
+- `public/index.html` : page unique, avec contenu français de repli.
+- `public/assets/translations.js` : traductions anglaises et néerlandaises.
 - `public/assets/` : styles, navigation et favicon.
 - `scripts/` : aperçu local et vérifications.
 - `docs/` : préparation de l’hébergement et bilan de vérification.
@@ -29,7 +35,7 @@ Sur un autre système, tout serveur de fichiers statiques peut servir `public/`.
 
 ## Modifier et vérifier
 
-Modifier les textes dans les deux pages, conserver les ancres communes et les liens relatifs. Le CSS et le JavaScript sont partagés. La date de copyright est statique et se met à jour manuellement.
+Modifier le contenu français dans la page et maintenir les clés et traductions correspondantes dans `public/assets/translations.js`. Les clés sont les textes français exacts, après suppression des espaces de début et de fin. Le moteur modifie les nœuds texte et attributs sans injecter de HTML. Les noms propres et outils restent inchangés si nécessaire. La date de copyright est statique et se met à jour manuellement.
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Verify.ps1
@@ -47,7 +53,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Test-Browser.ps1
 
 Le CV sert uniquement de source privée. **Il n’est pas inclus, publié ou téléchargeable.** Ne pas ajouter d’original, copie, PDF ou transcription intégrale. L’adresse précise et le téléphone sont exclus. La sélection d’informations professionnelles, l’e-mail et les liens professionnels sont publics dans le code.
 
-Le site ne comporte ni formulaire, compte visiteur, cookies de suivi, outil analytique ni requête tierce au chargement. Les liens professionnels ne sont suivis que si activés. Un futur hébergeur peut conserver ses propres journaux techniques.
+Le site ne comporte ni formulaire, compte visiteur, cookies de suivi, outil analytique ni requête tierce au chargement. Seule la préférence de langue est enregistrée localement, sans transmission à un tiers. Les liens professionnels ne sont suivis que si activés. Un futur hébergeur peut conserver ses propres journaux techniques.
 
 ## GitHub et futur hébergement
 

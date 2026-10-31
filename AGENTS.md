@@ -69,6 +69,7 @@ Conserver le code source et la documentation sur GitHub afin de pouvoir consulte
 - Ne pas écraser le travail distant ni réécrire l’historique partagé sans instruction explicite.
 - Ne pas modifier la visibilité du dépôt sans demande.
 - Effectuer les commits, les envois sur GitHub et les déploiements conformément aux instructions données par l’utilisateur.
+- À chaque modification livrée, actualiser le README.md, créer le commit et pousser sur GitHub après les contrôles adaptés, sauf instruction contraire du propriétaire. Si les fichiers du site changent, vérifier également le déploiement GitHub Pages avant d’annoncer la publication.
 
 ## Documentation et reproductibilité
 

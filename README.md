@@ -34,6 +34,8 @@ Les textes courants font 17 à 18 pixels et les textes secondaires au moins 14 p
 
 Le bilan affiché est de **2 projets livrés** (ELK, Nagios) et **1 projet en cours** (mesure de productivité liée à l’IA). Les manuels de configuration et d’utilisation ainsi que l’accompagnement sont mentionnés pour ELK ; aucun document privé n’est publié. Les expériences de stage réseau sont présentées séparément et ne sont pas ajoutées à ces compteurs.
 
+Le projet de monitoring applicatif ELK a été déployé et testé sur **OpenShift**, mentionné dans les technologies et la réalisation, dans les trois langues.
+
 ## Organisation des fichiers
 
 - `public/index.html` : page unique, avec contenu français de repli.
@@ -47,6 +49,8 @@ Le bilan affiché est de **2 projets livrés** (ELK, Nagios) et **1 projet en co
 ## Modifier et vérifier
 
 Le portrait d’accueil est une version retouchée avec imagegen de la photo fournie par le propriétaire. Seul le JPEG optimisé sans EXIF est publié ; l’original reste hors du dépôt. Voir [la retouche et sa consigne](docs/portrait.md).
+
+Le portrait est affiché sans monogramme superposé. La présentation À propos utilise le nom court **Steve Djieutcheu** en français, anglais et néerlandais.
 
 Le site propose des filtres de réalisations, un indicateur de lecture et un repère de section dans le menu. Les animations d’entrée et de défilement sont finies, sans boucle, et respectent `prefers-reduced-motion`. Sans JavaScript, le portrait, les textes et toutes les réalisations restent visibles. Aucun service tiers n’est ajouté.
 
@@ -74,6 +78,8 @@ Le site ne comporte ni formulaire, compte visiteur, cookies de suivi, outil anal
 
 Le dépôt est public à la demande du propriétaire. GitHub conserve les sources et l’historique ; GitHub Pages publie le portfolio. Le workflow `.github/workflows/pages.yml` vérifie le projet puis publie **uniquement `public/`**, jamais la racine du dépôt. Les changements de ce dossier sur `main` déclenchent une publication ; un lancement manuel est aussi possible dans Actions. Voir [la configuration d’hébergement](docs/hosting.md) et [le suivi sécurité](sécurité.md).
 
-Après modification : effectuer les contrôles, examiner `git diff`, créer un commit explicite puis envoyer sans force. Ne jamais versionner de secret. Vérifier les fichiers suivis en plus de `.gitignore`.
+À chaque modification livrée, actualiser ce README pour décrire le résultat et les éventuelles nouvelles instructions. Effectuer les contrôles adaptés, examiner `git diff` et les fichiers suivis, puis créer un commit explicite et pousser sur GitHub sans force, sauf demande contraire du propriétaire. Ne jamais versionner de secret ; `.gitignore` ne remplace pas la revue des fichiers suivis.
+
+Quand les fichiers du site changent, attendre la réussite du déploiement GitHub Pages et vérifier la version en ligne avant d’annoncer sa publication. Un changement limité au README ou aux consignes est envoyé sur GitHub sans nécessiter de nouveau déploiement du site.
 
 HTTPS est imposé dans les réglages Pages. Les contrôles effectués sont consignés dans [le bilan](docs/verification.md). MFA et récupération restent à confirmer par le propriétaire. Ce workflow ne personnalise pas les en-têtes HTTP gérés par GitHub Pages ; la CSP embarquée reste présente. Les en-têtes locaux ne prouvent pas leur présence en production.

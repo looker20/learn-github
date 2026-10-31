@@ -15,7 +15,7 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 | Coordonnées | E-mail, LinkedIn et GitHub uniquement ; absence du téléphone et de l’adresse précise vérifiée |
 | Affichage | 96 scénarios locaux : 2 thèmes × 3 langues × 8 largeurs (320, 360, 390, 640, 768, 900, 1024, 1280) × 2 préfixes (racine et `/portfolio/`), sans débordement horizontal ; émulation mobile jusqu’à 640 pixels |
 | Contrastes | Texte visible contrôlé sur ses fonds CSS, seuil 4,5:1 pour le texte courant et 3:1 pour le grand texte ; aucune insuffisance détectée par le contrôle ciblé |
-| Navigation | Menu commun sur téléphone et ordinateur, avec sections, langue et apparence à l’intérieur. En-tête de moins de 90 pixels, réglages masqués quand le menu est fermé ; liens et sélecteurs accessibles par Tab, fermeture avec Échap et retour du focus, clic extérieur et choix de section vérifiés. Écran paysage 844 × 390 : panneau défilant et réglages accessibles |
+| Navigation | Menu commun sur téléphone et ordinateur, avec sections, langue et apparence à l’intérieur. En-tête de moins de 90 pixels, réglages masqués quand le menu est fermé ; liens et sélecteurs accessibles par Tab, fermeture avec Échap et retour du focus, sortie du focus, clic extérieur et choix de section vérifiés. Écran paysage 844 × 390 : panneau défilant, réglages accessibles et ouverture par appui tactile émulé vérifiés |
 | Traduction | Titres et libellés accessibles traduits ; états des détails et section courante conservés ; choix mémorisé après rechargement |
 | Détection de langue | Préférences en-GB, nl-BE, fr-BE, recherche de la première langue compatible, repli français, préférence manuelle prioritaire et valeur stockée invalide testés |
 | Stockage bloqué | Changement de langue fonctionnel malgré le blocage de localStorage |
@@ -38,7 +38,7 @@ Les sorties et captures du navigateur sont générées sous `.local/`, exclu de 
 
 ## Publication GitHub Pages vérifiée
 
-Correction éditoriale du 31 octobre 2026 : retrait du monogramme HTML superposé au portrait et du style associé, sans modifier le JPEG. La présentation À propos utilise désormais « Steve Djieutcheu » dans les trois langues. `scripts/Verify.ps1` et `git diff --check` passent après ces corrections ; les précédents essais navigateur décrits ci-dessus restent ceux des versions indiquées.
+Correction éditoriale antérieure du 31 octobre 2026 : retrait du monogramme HTML superposé au portrait et du style associé, sans modifier le JPEG à cette étape. La présentation À propos utilise « Steve Djieutcheu » dans les trois langues. Les contrôles statiques passaient après cette correction.
 
 - Dépôt rendu public sur demande explicite du propriétaire, sans document CV dans le dépôt ou l’historique examiné.
 - Pages activé en mode GitHub Actions, HTTPS imposé.
@@ -46,11 +46,12 @@ Correction éditoriale du 31 octobre 2026 : retrait du monogramme HTML superpos�
 - Mise à jour portrait et interactions réussie : [workflow 41208946244](https://github.com/looker20/learn-github/actions/runs/41208946244), révision `f56f2751acb51ab8c911de1b61e47bc467b182ca` ; essais navigateur sur l’URL publique réussis dans les trois langues aux trois largeurs.
 - Mise à jour thèmes et bilan de projets réussie : [workflow 41210636166](https://github.com/looker20/learn-github/actions/runs/41210636166), révision `5df42acb258349e180b142ac12e2e7d8d562a3af`. Les 18 scénarios publics (2 thèmes × 3 langues × 3 largeurs) passent, dont taille des textes, contrastes, compteurs, filtres et navigation clavier.
 - Précision OpenShift confirmée par le propriétaire et publiée : [workflow 41211587645](https://github.com/looker20/learn-github/actions/runs/41211587645), révision `f8339abfeaf5d9a8dce9e4ada0b57cc5ca00f4a9`. Ajout aux technologies et au projet ELK : déploiement et tests du monitoring applicatif sur OpenShift, avec traductions anglaise et néerlandaise. Vérification statique réussie ; les neuf fichiers en ligne correspondent au contenu attendu. Les 18 scénarios navigateur publics passent après cet ajout, sans débordement, régression de contraste, erreur JavaScript ou violation CSP observée.
+- Nouvelle photo fournie pour correspondre au profil LinkedIn, menu unique et adaptation responsive publiés : [workflow 41218679643](https://github.com/looker20/learn-github/actions/runs/41218679643), révision `0158cdf626d0c8320c681efa3614cecb091737c7`. Les 48 scénarios publics (2 thèmes × 3 langues × 8 largeurs de 320 à 1280 pixels) passent après les 96 scénarios locaux. Navigation, langue et apparence sont dans le même menu ; les réglages ne sont pas visibles quand il est fermé. Accès clavier, fermeture par sortie du focus, appui tactile émulé et défilement du panneau à 844 × 390 pixels vérifiés. Aucun débordement horizontal, défaut de contraste détecté, requête tierce ou erreur JavaScript/CSP observé. Les neuf fichiers publiés correspondent à la version locale et le JPEG à l’empreinte de la photo fournie.
 - Adresse vérifiée : **https://looker20.github.io/learn-github/**.
 - Les neuf fichiers publics répondent en HTTPS 200 et correspondent au contenu local après normalisation des fins de ligne pour les textes ; le JPEG publié possède la même empreinte SHA-256 que le fichier attendu et le type `image/jpeg`.
 - HTTP redirige vers HTTPS. HSTS observé : `max-age=31556952`.
 - `/AGENTS.md`, `/README.md`, `/.git/config` et l’ancienne page `/en/index.html` répondent 404 sur le site. Les documents suivis restent visibles dans le dépôt public.
-- Dix-huit scénarios navigateur sur l’URL réelle : modes clair/sombre, FR/EN/NL à 360, 768 et 1280 pixels. Portrait, filtres au clavier, annonces de résultats traduites, compteurs 2 livrés / 1 en cours, progression de lecture, section active, lisibilité, contrastes, menu, traduction sur place, persistance et stockage bloqué passent. Le mode mouvement réduit désactive les animations et les transformations de révélation.
+- Dernière campagne sur l’URL réelle : 48 scénarios aux huit largeurs indiquées, dans les deux thèmes et les trois langues. Portrait, filtres au clavier, annonces de résultats traduites, compteurs 2 livrés / 1 en cours, progression de lecture, section active, lisibilité, contrastes, menu commun, traduction sur place, persistance et stockage bloqué passent. Le mode mouvement réduit désactive les animations et les transformations de révélation.
 - Aucune requête tierce ni erreur JavaScript ou CSP observée pendant les essais.
 - CSP, nosniff, X-Frame-Options, Referrer-Policy et Permissions-Policy absents des en-têtes HTTP de production observés. La CSP et la politique de référent intégrées à la page restent disponibles ; `frame-ancestors` ne fonctionne pas via une balise meta. Aucun en-tête local n’est présenté comme actif en production.
 
@@ -62,7 +63,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Test-Browser.ps1 -Ba
 
 ## Limites et contrôles ultérieurs
 
-- Pas de test sur Safari, Firefox, appareils physiques ou lecteur d’écran ; revue complémentaire recommandée avant publication web.
+- Pas de test sur Safari, Firefox, appareils physiques ou lecteur d’écran ; revue complémentaire recommandée pour compléter ces contrôles Chrome sur tailles émulées.
 - Le contrôle des contrastes ne couvre pas toutes les combinaisons de survol, styles système ou rendu d’extensions.
 - Un domaine personnalisé, les alertes et la surveillance restent à décider. Les protections DDoS du fournisseur n’ont pas fait l’objet d’un test de charge.
 - MFA, récupération des comptes, protections de branche et permissions GitHub n’ont pas été inspectés ou modifiés.

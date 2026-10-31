@@ -66,6 +66,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Verify.ps1
 
 Le contrôle vérifie ressources locales, ancres, métadonnées, destinations externes et exclusion des documents privés. Il complète les essais navigateur de `docs/verification.md` ; il ne constitue pas un audit exhaustif.
 
+Bilan du 31 octobre 2026 pour la nouvelle photo et le menu commun : **96 scénarios locaux et 48 scénarios sur le site publié réussis sous Chrome**, aux largeurs de 320 à 1280 pixels, dans les trois langues et les deux thèmes. Le menu est aussi contrôlé en paysage à 844 × 390 pixels, au toucher et au clavier. Il s’agit de tailles émulées ; aucun essai sur téléphone physique n’a été effectué. Les détails et la preuve du déploiement figurent dans [le bilan de vérification](docs/verification.md).
+
 Les essais navigateur utilisent Chrome ou Edge installé, le serveur local et un profil jetable dans `.local/`. Aucune dépendance à installer :
 
 ```powershell

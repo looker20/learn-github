@@ -95,7 +95,6 @@ h1 span { display: block; color: var(--teal); }
 .portrait-card { width: 100%; max-width: 410px; margin: 0 0 0 auto; }
 .portrait-frame { position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; background: var(--surface-alt); box-shadow: 0 24px 50px -28px #081c2850; }
 .portrait-frame img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform .5s; }
-.portrait-stamp { position: absolute; bottom: 18px; left: 18px; display: grid; place-items: center; width: 47px; height: 47px; background: #203a34; color: #b9dfcb; border-radius: 13px; font-weight: 750; font-size: 20px; }
 .portrait-caption { display: flex; justify-content: space-between; align-items: center; gap: 15px; padding: 20px 3px 0; }
 .portrait-caption strong { display: block; font-size: 20px; }
 .portrait-caption div > span { display: block; font-size: 15px; color: var(--muted); margin-top: 5px; }

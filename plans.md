@@ -21,6 +21,8 @@ Une seule page avec un menu Français / English / Nederlands qui traduit le cont
 5. Parcours : sélection d’expériences, de formations et langues parlées.
 6. Contact : e-mail, LinkedIn et GitHub.
 
+Dans la présentation À propos, utiliser le nom court « Steve Djieutcheu ». Le portrait est affiché sans monogramme superposé.
+
 Deux modes sélectionnables : clair en tons pierre/sauge et sombre en tons ardoise/vert doux. Textes courants de 17 à 18 pixels, textes secondaires d’au moins 14 pixels. Le choix suit d’abord le système puis la préférence manuelle mémorisée, indépendamment de la langue. Portrait professionnel retouché intégré à l’accueil ; l’original reste hors du dépôt. Aucun résultat chiffré, niveau d’expertise, témoignage ou certification inventé.
 
 ## Informations confirmées et limites

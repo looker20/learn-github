@@ -38,6 +38,8 @@ Les sorties et captures du navigateur sont générées sous `.local/`, exclu de 
 
 ## Publication GitHub Pages vérifiée
 
+Correction éditoriale du 31 octobre 2026 : retrait du monogramme HTML superposé au portrait et du style associé, sans modifier le JPEG. La présentation À propos utilise désormais « Steve Djieutcheu » dans les trois langues. `scripts/Verify.ps1` et `git diff --check` passent après ces corrections ; les précédents essais navigateur décrits ci-dessus restent ceux des versions indiquées.
+
 - Dépôt rendu public sur demande explicite du propriétaire, sans document CV dans le dépôt ou l’historique examiné.
 - Pages activé en mode GitHub Actions, HTTPS imposé.
 - Premier déploiement réussi : [workflow 41207065640](https://github.com/looker20/learn-github/actions/runs/41207065640), révision `a962a8dc62c2d0a59770d421797f0b3e9f8afbd6`.

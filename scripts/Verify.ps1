@@ -9,7 +9,13 @@ $files = @(Get-ChildItem -LiteralPath $publicRoot -Recurse -File)
 Assert-True ($files.Count -gt 0) 'No public files found'
 Assert-True (@($files | Where-Object Extension -eq '.html').Count -eq 1) 'Expected a single HTML page'
 foreach ($file in $files) {
-    Assert-True ($file.Extension -in @('.html', '.css', '.js', '.svg') -or $file.Name -in @('robots.txt', 'sitemap.xml')) "Unexpected public file: $($file.Name)"
+    Assert-True ($file.Extension -in @('.html', '.css', '.js', '.svg') -or $file.Name -in @('robots.txt', 'sitemap.xml', 'steve-aime-portrait.jpg')) "Unexpected public file: $($file.Name)"
+    if ($file.Extension -eq '.jpg') {
+        $imageBytes = [IO.File]::ReadAllBytes($file.FullName)
+        Assert-True ($imageBytes.Length -lt 512000 -and $imageBytes.Length -gt 1000 -and $imageBytes[0] -eq 255 -and $imageBytes[1] -eq 216) 'Portrait must be an optimized JPEG'
+        Assert-True ([Text.Encoding]::ASCII.GetString($imageBytes) -notmatch 'Exif\x00\x00') 'Portrait contains EXIF metadata'
+        continue
+    }
     $text = [IO.File]::ReadAllText($file.FullName)
     Assert-True ($text -notmatch '\uFFFD') "Invalid encoding: $($file.Name)"
     Assert-True ($text -notmatch '(?i)(?:\+|00)32[\d\s().-]{8,}') "Potential phone number: $($file.Name)"

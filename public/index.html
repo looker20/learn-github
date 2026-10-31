@@ -17,6 +17,7 @@
 <body id="top">
   <a class="skip-link" href="#main">Aller au contenu</a>
   <header class="site-header">
+    <progress class="reading-progress" max="100" value="0" aria-hidden="true" tabindex="-1" hidden></progress>
     <div class="container header-inner">
       <a class="brand" href="#top" aria-label="Steve Aimé — accueil"><span class="brand-mark" aria-hidden="true">SA.</span><span class="brand-name">Steve Aimé</span></a>
       <nav class="navigation" id="navigation" aria-label="Navigation principale">
@@ -39,11 +40,9 @@
           <div class="button-row"><a class="button" href="#projects">Découvrir mes réalisations <span aria-hidden="true">↗</span></a><a class="button secondary" href="#contact">Me contacter</a></div>
           <div class="hero-links"><a href="https://www.linkedin.com/in/djieutcheusteve94">LinkedIn <span aria-hidden="true">↗</span></a><a href="https://github.com/looker20">GitHub <span aria-hidden="true">↗</span></a></div>
         </div>
-        <figure class="systems-figure" aria-label="Mon approche : collecter les signaux, comprendre les systèmes, agir sur les opérations.">
-          <div class="figure-top"><span>UNE VISION SYSTÈME</span><span class="figure-dots" aria-hidden="true">● ● ●</span></div>
-          <div class="figure-core"><div class="core-icon" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="6" width="26" height="11" rx="3"/><rect x="7" y="23" width="26" height="11" rx="3"/><path d="M12 11h8m-8 17h8m8-17h1m-1 17h1M20 17v6"/></svg></div><strong>Observer pour mieux agir.</strong><p>Des signaux à la compréhension.</p></div>
-          <div class="flow"><div class="flow-item"><small>01 /</small><span>Collecter</span></div><div class="flow-item"><small>02 /</small><span>Comprendre</span></div><div class="flow-item"><small>03 /</small><span>Agir</span></div></div>
-          <figcaption class="figure-caption"><span>INFRASTRUCTURES &amp; OPÉRATIONS</span><span>Fiabilité · Continuité</span></figcaption>
+        <figure class="portrait-card">
+          <div class="portrait-frame"><img src="assets/steve-aime-portrait.jpg" alt="Portrait professionnel de Steve Aimé" width="800" height="1000" fetchpriority="high" decoding="async"><span class="portrait-stamp" aria-hidden="true">SA.</span></div>
+          <figcaption class="portrait-caption"><div><strong>Steve Aimé</strong><span>Ingénieur IT · Infrastructures &amp; observabilité</span></div><a class="portrait-caption-icon" href="#contact" aria-label="Contacter Steve Aimé"><span aria-hidden="true">↗</span></a></figcaption>
         </figure>
       </div>
       <div class="expertise-strip" aria-label="Technologies de mon parcours"><span>Mon environnement technique</span><span>OpenTelemetry</span><span>Elastic</span><span>Terraform</span><span>Ansible</span><span>Docker</span></div>
@@ -62,13 +61,15 @@
     </section>
     <section class="section projects-section" id="projects" aria-labelledby="projects-title"><div class="container">
       <div class="section-head"><div><span class="section-number">03 / Réalisations</span><h2 id="projects-title">Du terrain à la supervision.</h2></div><p class="section-intro">Une sélection de travaux réalisés en stage, de l’observabilité applicative aux infrastructures réseau.</p></div>
-      <article class="project-feature">
+      <div class="project-filters" role="group" aria-label="Filtrer les réalisations" hidden><button type="button" data-project-filter="all" aria-pressed="true">Tout voir</button><button type="button" data-project-filter="observability" aria-pressed="false">Observabilité</button><button type="button" data-project-filter="network" aria-pressed="false">Réseaux &amp; télécoms</button></div>
+      <p class="sr-only" id="project-status" role="status" aria-live="polite"></p>
+      <article class="project-feature" data-project-topic="observability">
         <div class="project-visual"><p class="diagram-label">Architecture de principe</p><div class="diagram" role="img" aria-label="Application Java, instrumentation OpenTelemetry, puis supervision Elastic APM et Kibana."><div class="diagram-node">Application Java</div><div class="diagram-line" aria-hidden="true"></div><div class="diagram-node">OpenTelemetry</div><div class="diagram-line" aria-hidden="true"></div><div class="diagram-node">Elastic APM · Kibana</div></div></div>
         <div class="project-body"><p class="project-meta">Infrabel · Stage DevSecOps · 2024–2025</p><h3>Rendre une application Java observable.</h3><p>Contribution à la supervision applicative avec OpenTelemetry et la suite Elastic, pour suivre les performances et accompagner l’analyse des alertes.</p><ul class="tags" aria-label="Technologies du projet"><li>Java</li><li>OpenTelemetry</li><li>Elastic APM</li><li>Kibana</li></ul><details><summary>Mon rôle dans ce projet</summary><p>Travail sur le monitoring applicatif, les configurations de supervision et le suivi des performances. Cette expérience s’inscrit dans une démarche de maintenance et de continuité des services IT. Le schéma illustre le principe général, sans exposer l’architecture interne.</p></details></div>
       </article>
       <div class="project-grid">
-        <article class="project-small"><span class="project-number" aria-hidden="true">02 / RÉSEAUX</span><p class="project-meta">CAMTEL · Stage académique · 2017–2018</p><h3>Étudier les interconnexions MPLS.</h3><p>Étude et mise en œuvre de solutions MPLS pour les interconnexions réseau, avec une contribution à l’analyse et à la maintenance des infrastructures de télécommunications.</p><ul class="tags" aria-label="Domaines du projet"><li>MPLS</li><li>Interconnexion</li><li>Réseaux</li></ul><details><summary>Mon rôle dans ce projet</summary><p>Participation à l’étude des solutions d’interconnexion et des infrastructures reliant les datacenters, dans le cadre d’un stage académique à Douala.</p></details></article>
-        <article class="project-small"><span class="project-number" aria-hidden="true">03 / TÉLÉCOMMUNICATIONS</span><p class="project-meta">TELEINFRA · Stage académique · 2017–2018</p><h3>Contribuer à une liaison fibre.</h3><p>Réalisation, dans le cadre d’un stage académique, d’une connexion FTTH entre deux stations de télécommunications.</p><ul class="tags" aria-label="Domaines du projet"><li>FTTH</li><li>Fibre optique</li><li>Connectivité</li></ul><details><summary>Mon rôle dans ce projet</summary><p>Contribution à la mise en place de la liaison entre les deux stations. Une expérience de terrain venant compléter mon parcours en réseaux et télécommunications.</p></details></article>
+        <article class="project-small" data-project-topic="network"><span class="project-number" aria-hidden="true">02 / RÉSEAUX</span><p class="project-meta">CAMTEL · Stage académique · 2017–2018</p><h3>Étudier les interconnexions MPLS.</h3><p>Étude et mise en œuvre de solutions MPLS pour les interconnexions réseau, avec une contribution à l’analyse et à la maintenance des infrastructures de télécommunications.</p><ul class="tags" aria-label="Domaines du projet"><li>MPLS</li><li>Interconnexion</li><li>Réseaux</li></ul><details><summary>Mon rôle dans ce projet</summary><p>Participation à l’étude des solutions d’interconnexion et des infrastructures reliant les datacenters, dans le cadre d’un stage académique à Douala.</p></details></article>
+        <article class="project-small" data-project-topic="network"><span class="project-number" aria-hidden="true">03 / TÉLÉCOMMUNICATIONS</span><p class="project-meta">TELEINFRA · Stage académique · 2017–2018</p><h3>Contribuer à une liaison fibre.</h3><p>Réalisation, dans le cadre d’un stage académique, d’une connexion FTTH entre deux stations de télécommunications.</p><ul class="tags" aria-label="Domaines du projet"><li>FTTH</li><li>Fibre optique</li><li>Connectivité</li></ul><details><summary>Mon rôle dans ce projet</summary><p>Contribution à la mise en place de la liaison entre les deux stations. Une expérience de terrain venant compléter mon parcours en réseaux et télécommunications.</p></details></article>
       </div>
     </div></section>
     <section class="section container" id="journey" aria-labelledby="journey-title">

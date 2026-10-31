@@ -96,6 +96,9 @@ try {
                 Assert-True ((Evaluate 'document.querySelector("h1").textContent').Contains($expectedHeading)) 'Heading translation failed'
                 $expectedLabel = @{ fr = 'Choisir la langue'; en = 'Choose language'; nl = 'Kies de taal' }[$language]
                 Assert-True ((Evaluate 'document.querySelector("label[for=language]").textContent') -eq $expectedLabel) 'Accessible language label not translated'
+                $expectedAlt = @{ fr = 'Portrait professionnel de Steve Aimé'; en = 'Professional portrait of Steve Aimé'; nl = 'Professioneel portret van Steve Aimé' }[$language]
+                Assert-True ((Evaluate 'document.querySelector(".portrait-frame img").alt') -eq $expectedAlt) 'Portrait alternative text not translated'
+                Assert-True (Evaluate 'document.querySelector(".portrait-frame img").complete && document.querySelector(".portrait-frame img").naturalWidth === 800') 'Portrait did not load'
                 $overflow = Evaluate '({width:innerWidth,scroll:document.documentElement.scrollWidth})'
                 Assert-True ($overflow.scroll -le $overflow.width) "Horizontal overflow: $language $prefix $width"
                 Assert-True (Evaluate 'Array.from(document.styleSheets).some(s => s.cssRules.length > 20)') 'Stylesheet not loaded'
@@ -117,6 +120,19 @@ try {
 })()
 '@
                 Assert-True (@($contrastFailures).Count -eq 0) ('Text contrast failed: ' + ($contrastFailures | ConvertTo-Json -Compress))
+                Evaluate 'document.querySelector("[data-project-filter=network]").focus()' | Out-Null
+                Press-Key 'Enter' 'Enter' 13
+                Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 2 && document.querySelector("[data-project-filter=network]").getAttribute("aria-pressed") === "true"') 'Keyboard project filter failed'
+                $otherLanguage = @{ fr = 'en'; en = 'nl'; nl = 'fr' }[$language]
+                Switch-Language $otherLanguage
+                Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 2') 'Translation lost active filter'
+                Switch-Language $language
+                $expectedResult = @{ fr = '2 réalisations affichées.'; en = '2 projects shown.'; nl = '2 projecten weergegeven.' }[$language]
+                Assert-True ((Evaluate 'document.querySelector("#project-status").textContent') -eq $expectedResult) 'Accessible filter status not translated'
+                Evaluate 'document.querySelector("[data-project-filter=observability]").click()' | Out-Null
+                Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 1 && document.querySelector(".project-grid").hidden') 'Observability filter failed'
+                Evaluate 'document.querySelector("[data-project-filter=all]").click()' | Out-Null
+                Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 3 && !document.querySelector(".project-grid").hidden') 'All-projects filter failed'
                 if ($width -lt 901) {
                     Evaluate 'document.querySelector(".menu-toggle").focus()' | Out-Null
                     Press-Key 'Enter' 'Enter' 13
@@ -129,7 +145,12 @@ try {
                 Evaluate 'document.querySelector("summary").focus()' | Out-Null
                 Press-Key 'Enter' 'Enter' 13
                 Assert-True (Evaluate 'document.querySelector("details").open') 'Project details keyboard interaction failed'
-                Evaluate 'document.querySelector("details").open = false; window.scrollTo(0,0)' | Out-Null
+                Evaluate 'document.querySelector("details").open = false; window.scrollTo({top: document.documentElement.scrollHeight, behavior: "instant"})' | Out-Null
+                Evaluate 'new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))' | Out-Null
+                Assert-True (Evaluate 'document.querySelector(".reading-progress").value > 95') 'Reading progress not updated'
+                Assert-True (Evaluate '!!document.querySelector("#navigation a[aria-current=location]")') 'Current section not indicated'
+                Evaluate 'document.activeElement.blur(); window.scrollTo({top: 0, behavior: "instant"})' | Out-Null
+                Evaluate 'Promise.all(document.getAnimations().map(animation => animation.finished.catch(() => {}))).then(() => true)' | Out-Null
                 $suffix = if ($prefix) { '-prefix' } else { '' }
                 $screenshot = Invoke-CDP 'Page.captureScreenshot' @{ format = 'png'; captureBeyondViewport = $false }
                 [IO.File]::WriteAllBytes((Join-Path $outputDir "$language-$width$suffix.png"), [Convert]::FromBase64String($screenshot.data))
@@ -179,6 +200,7 @@ try {
         Assert-True (Evaluate 'getComputedStyle(document.querySelector("#navigation")).display !== "none" && document.querySelector(".menu-toggle").hidden') 'No-JavaScript navigation failed'
         Assert-True (Evaluate 'document.documentElement.scrollWidth <= innerWidth') 'No-JavaScript overflow'
         Assert-True (Evaluate 'document.querySelector(".language-switch").hidden && document.documentElement.lang === "fr"') 'No-JavaScript fallback failed'
+        Assert-True (Evaluate 'document.querySelector(".project-filters").hidden && document.querySelectorAll("[data-project-topic]:not([hidden])").length === 3 && document.querySelector(".portrait-frame img").naturalWidth === 800') 'No-JavaScript portrait or projects unavailable'
         $results.Add("PASS $language without JavaScript: visible navigation and readable layout")
         Invoke-CDP 'Emulation.setScriptExecutionDisabled' @{ value = $false } | Out-Null
     }
@@ -189,7 +211,9 @@ try {
     Assert-True (Evaluate 'location.hash === "#main"') 'Skip link target failed'
     Invoke-CDP 'Emulation.setEmulatedMedia' @{ features = @(@{ name = 'prefers-reduced-motion'; value = 'reduce' }) } | Out-Null
     Assert-True (Evaluate 'getComputedStyle(document.documentElement).scrollBehavior === "auto"') 'Reduced-motion preference failed'
-    $results.Add('PASS keyboard skip link, visible focus and reduced motion')
+    Evaluate 'new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))' | Out-Null
+    Assert-True (Evaluate 'Array.from(document.querySelectorAll(".reveal")).every(node => getComputedStyle(node).transform === "none") && document.getAnimations().length === 0') 'Reduced-motion animations remain active'
+    $results.Add('PASS keyboard skip link, visible focus, project filters, portrait, reading progress and reduced motion')
     $fileUrl = ([Uri](Join-Path $repoRoot 'public\index.html')).AbsoluteUri
     Navigate $fileUrl
     foreach ($language in @('fr', 'en', 'nl')) {
@@ -199,11 +223,11 @@ try {
     Switch-Language 'fr'
     $missingTranslations = Evaluate @'
 (() => {
-  const keys = [...Array.from(document.querySelectorAll('[aria-label]'), n => n.getAttribute('aria-label')), document.title, document.querySelector('meta[name="description"]').content];
+  const keys = [...Array.from(document.querySelectorAll('[aria-label]'), n => n.getAttribute('aria-label')), ...Array.from(document.querySelectorAll('[alt]'), n => n.alt), document.title, document.querySelector('meta[name="description"]').content];
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   while (walker.nextNode()) {
     const node = walker.currentNode;
-    if (!node.parentElement.closest('script, style, select, noscript, #language-status') && node.textContent.trim()) keys.push(node.textContent.trim());
+    if (!node.parentElement.closest('script, style, select, noscript, [role=status]') && node.textContent.trim()) keys.push(node.textContent.trim());
   }
   return keys.filter(key => !Object.hasOwn(portfolioTranslations.en, key) || !Object.hasOwn(portfolioTranslations.nl, key));
 })()

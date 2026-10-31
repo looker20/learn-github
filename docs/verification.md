@@ -8,8 +8,8 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 
 | Contrôle | Résultat et preuve |
 | --- | --- |
-| Structure statique | 7 fichiers publiables : une page HTML, CSS, navigation/traduction, catalogue de traductions, favicon SVG, robots.txt et sitemap.xml ; aucune dépendance d’exécution |
-| Liens locaux et ancres | 14 références contrôlées par `scripts/Verify.ps1`, sans référence manquante ; une seule page HTML |
+| Structure statique | 8 fichiers publiables : une page HTML, CSS, navigation/traduction, catalogue de traductions, favicon SVG, portrait JPEG, robots.txt et sitemap.xml ; aucune dépendance d’exécution |
+| Liens locaux et ancres | 16 références contrôlées par `scripts/Verify.ps1`, sans référence manquante ; une seule page HTML |
 | Métadonnées | Attribut lang, titre et description mis à jour avec la langue choisie ; CSP présente |
 | Confidentialité du CV | Aucun document original, PDF, copie, extraction ou téléchargement dans les fichiers publiables et candidats Git ; revue du contenu sélectionné |
 | Coordonnées | E-mail, LinkedIn et GitHub uniquement ; absence du téléphone et de l’adresse précise vérifiée |
@@ -24,6 +24,9 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 | Réalisations | Ouverture des détails avec la touche Entrée |
 | Accès rapide | Lien d’évitement utilisable au clavier et focus visible |
 | Sans JavaScript | Navigation visible et contenu français lisible à 360 pixels ; menu de langue masqué |
+| Portrait | JPEG 800 × 1000, 107 272 octets, sans EXIF ; chargé aux trois largeurs, texte alternatif traduit ; photo originale exclue du dépôt |
+| Filtres | Sélection au clavier : 2 réalisations réseau, 1 observabilité ou les 3 ; filtre conservé au changement de langue et compte rendu accessible traduit |
+| Interactions et mouvement | Progression de lecture mise à jour, section active indiquée, apparition au défilement ; aucune animation ou transformation persistante en mode mouvement réduit |
 | Mouvement réduit | Défilement fluide désactivé lorsque la préférence système est active |
 | Réseau navigateur | Aucune requête tierce, violation CSP ou exception JavaScript observée pendant les essais |
 | HTTP local | Pages et ressources : 200 ; route inconnue et `/AGENTS.md` : 404 |
@@ -60,6 +63,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Test-Browser.ps1 -Ba
 - La procédure de retour arrière est documentée, mais aucun retour arrière du site en ligne n’a été exécuté.
 - La description des missions repose sur le CV et les confirmations de dates. Aucune preuve interne ou mesure de performance n’est publiée.
 - Les noms d’entreprises sont ceux des expériences demandées pour le portfolio ; leur présence n’implique aucun partenariat ni soutien.
+- Le portrait est une retouche générative à partir de la photo fournie, inspectée visuellement. Voir `docs/portrait.md` pour la consigne et le traitement du fichier.
 
 ## Reproduire les essais
 

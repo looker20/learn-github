@@ -165,7 +165,14 @@ const portfolioTranslations = {
                "Langues parlées":  "Spoken languages",
                "Steve Aimé — Ingénieur IT · Infrastructures \u0026 Observabilité":  "Steve Aimé — IT Engineer · Infrastructure \u0026 Observability",
                "Découvrez le profil de Steve Aimé : infrastructures IT, observabilité et automatisation. Parcours, expertises et réalisations en supervision et réseaux.":  "Meet Steve Aimé: IT infrastructure, observability and automation. Explore his background, technical interests and work in application monitoring and networking.",
-               "Choisir la langue":  "Choose language"
+               "Choisir la langue":  "Choose language",
+               "Filtrer les réalisations":  "Filter projects",
+               "Observabilité":  "Observability",
+               "Ingénieur IT · Infrastructures \u0026 observabilité":  "IT Engineer · Infrastructure \u0026 observability",
+               "Réseaux \u0026 télécoms":  "Networks \u0026 telecoms",
+               "Tout voir":  "View all",
+               "Portrait professionnel de Steve Aimé":  "Professional portrait of Steve Aimé",
+               "Contacter Steve Aimé":  "Contact Steve Aimé"
            },
     "nl":  {
                "Aller au contenu":  "Naar de inhoud",
@@ -330,6 +337,13 @@ const portfolioTranslations = {
                "Langues parlées":  "Gesproken talen",
                "Steve Aimé — Ingénieur IT · Infrastructures \u0026 Observabilité":  "Steve Aimé — IT-ingenieur · Infrastructuur \u0026 Observability",
                "Découvrez le profil de Steve Aimé : infrastructures IT, observabilité et automatisation. Parcours, expertises et réalisations en supervision et réseaux.":  "Maak kennis met Steve Aimé: IT-infrastructuur, observability en automatisering. Ontdek zijn achtergrond, expertise en projecten in monitoring en netwerken.",
-               "Choisir la langue":  "Kies de taal"
+               "Choisir la langue":  "Kies de taal",
+               "Filtrer les réalisations":  "Projecten filteren",
+               "Observabilité":  "Observability",
+               "Ingénieur IT · Infrastructures \u0026 observabilité":  "IT-ingenieur · Infrastructuur \u0026 observability",
+               "Réseaux \u0026 télécoms":  "Netwerken \u0026 telecom",
+               "Tout voir":  "Alles bekijken",
+               "Portrait professionnel de Steve Aimé":  "Professioneel portret van Steve Aimé",
+               "Contacter Steve Aimé":  "Neem contact op met Steve Aimé"
            }
 };

@@ -37,6 +37,10 @@ Au premier accès, le site utilise la première langue prise en charge dans les 
 
 ## Modifier et vérifier
 
+Le portrait d’accueil est une version retouchée avec imagegen de la photo fournie par le propriétaire. Seul le JPEG optimisé sans EXIF est publié ; l’original reste hors du dépôt. Voir [la retouche et sa consigne](docs/portrait.md).
+
+Le site propose des filtres de réalisations, un indicateur de lecture et un repère de section dans le menu. Les animations d’entrée et de défilement sont finies, sans boucle, et respectent `prefers-reduced-motion`. Sans JavaScript, le portrait, les textes et toutes les réalisations restent visibles. Aucun service tiers n’est ajouté.
+
 Modifier le contenu français dans la page et maintenir les clés et traductions correspondantes dans `public/assets/translations.js`. Les clés sont les textes français exacts, après suppression des espaces de début et de fin. Le moteur modifie les nœuds texte et attributs sans injecter de HTML. Les noms propres et outils restent inchangés si nécessaire. La date de copyright est statique et se met à jour manuellement.
 
 ```powershell

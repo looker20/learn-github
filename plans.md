@@ -21,7 +21,7 @@ Une seule page avec un menu Français / English / Nederlands qui traduit le cont
 5. Parcours : sélection d’expériences, de formations et langues parlées.
 6. Contact : e-mail, LinkedIn et GitHub.
 
-Fond clair, bleu profond, accents turquoise, typographie système et monogramme en l’absence de photographie. Aucun résultat chiffré, niveau d’expertise, témoignage ou certification inventé.
+Fond clair, bleu profond, accents turquoise et typographie système. Portrait professionnel retouché à partir de la photo fournie, intégré à l’accueil ; l’original reste hors du dépôt. Aucun résultat chiffré, niveau d’expertise, témoignage ou certification inventé.
 
 ## Informations confirmées et limites
 
@@ -39,6 +39,8 @@ Fond clair, bleu profond, accents turquoise, typographie système et monogramme 
 - Fichiers publiables isolés dans `public/` ; ressources locales uniquement.
 - Liens relatifs compatibles avec un déploiement sous un préfixe.
 - Navigation mobile améliorée par JavaScript, avec liens visibles sans JavaScript.
+- Animations finies d’entrée et de défilement, survol des cartes, indicateur de lecture et section active. Respect du mouvement réduit ; le contenu n’est pas caché en cas d’échec d’animation.
+- Filtres de réalisations utilisables au clavier, avec état et nombre de résultats annoncés ; changement de langue conservant le filtre sélectionné.
 - Structure sémantique, accès clavier, focus visible et mouvement réduit.
 - Titres et descriptions traduits ; domaine définitif requis avant URL canoniques et sitemap.
 - En-têtes de production à configurer et vérifier lors de l’hébergement : voir `docs/hosting.md`.

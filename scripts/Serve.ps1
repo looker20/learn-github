@@ -36,6 +36,7 @@ try {
                         '.css' { $contentType = 'text/css; charset=utf-8' }
                         '.js' { $contentType = 'text/javascript; charset=utf-8' }
                         '.svg' { $contentType = 'image/svg+xml' }
+                        '.jpg' { $contentType = 'image/jpeg' }
                         '.xml' { $contentType = 'application/xml; charset=utf-8' }
                     }
                 } else { $status = '404 Not Found' }

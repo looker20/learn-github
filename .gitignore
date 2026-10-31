@@ -1,0 +1,25 @@
+# Private source documents must never be committed.
+*.doc
+*.docx
+*.pdf
+*.odt
+*.rtf
+private/
+.private/
+cv/
+CV/
+*cv*.txt
+*cv*.json
+*cv*.xml
+# Credentials and machine-local state
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+node_modules/
+.local/
+.cache/
+*.log
+Thumbs.db
+.DS_Store

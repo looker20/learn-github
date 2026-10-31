@@ -1,4 +1,4 @@
-﻿param([string]$BaseUrl = 'http://127.0.0.1:8080')
+﻿param([string]$BaseUrl = 'http://127.0.0.1:8080', [switch]$Deployed)
 $ErrorActionPreference = 'Stop'
 $repoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $outputDir = Join-Path $repoRoot '.local'
@@ -82,7 +82,8 @@ try {
     $script:socket = [Net.WebSockets.ClientWebSocket]::new()
     $script:socket.ConnectAsync([Uri]$tab.webSocketDebuggerUrl, [Threading.CancellationToken]::None).GetAwaiter().GetResult() | Out-Null
     foreach ($domain in @('Page.enable', 'Runtime.enable', 'Log.enable', 'Network.enable')) { Invoke-CDP $domain | Out-Null }
-    foreach ($prefix in @('', '/portfolio')) {
+    $prefixes = if ($Deployed) { @('') } else { @('', '/portfolio') }
+    foreach ($prefix in $prefixes) {
         foreach ($language in @('fr', 'en', 'nl')) {
             $path = '/index.html'
             foreach ($width in @(360, 768, 1280)) {

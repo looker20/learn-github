@@ -4,7 +4,7 @@
 
 Créer un portfolio trilingue français/anglais/néerlandais pour les recruteurs et responsables techniques, centré sur les infrastructures IT, l’observabilité et l’automatisation. Présenter également l’expérience DevSecOps de Steve Aimé.
 
-Livrer les fichiers dans le dépôt `looker20/learn-github` et les envoyer sur GitHub. L’hébergement public et le domaine feront l’objet d’une étape ultérieure. Aucun compte visiteur, base de données, formulaire ou serveur de production à administrer.
+Livrer les fichiers dans le dépôt `looker20/learn-github` et publier `public/` sur GitHub Pages à l’adresse `https://looker20.github.io/learn-github/`. Le propriétaire a demandé de rendre le dépôt public. Aucun compte visiteur, base de données, formulaire ou serveur de production à administrer.
 
 ## Confidentialité du CV
 
@@ -54,6 +54,6 @@ Fond clair, bleu profond, accents turquoise, typographie système et monogramme 
 - Mettre à jour le README et les mesures applicables de `sécurité.md`.
 - Examiner le contenu du commit, vérifier le dépôt distant, envoyer sans force et confirmer la révision distante.
 
-## Étape ultérieure : hébergement
+## Hébergement GitHub Pages
 
-Choisir le fournisseur et le domaine, vérifier HTTPS et les en-têtes, confirmer les protections des comptes, puis tester restauration et URL réelle. Un envoi sur GitHub ne constitue pas un déploiement web.
+Publier depuis `main` avec GitHub Actions, après vérification. Seul `public/` entre dans l’artefact de publication. Vérifier l’URL réelle et distinguer les en-têtes gérés par GitHub de ceux disponibles uniquement en local. Les contrôles de comptes et le test de restauration restent à documenter séparément. Un domaine personnalisé reste facultatif.

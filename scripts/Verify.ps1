@@ -9,7 +9,7 @@ $files = @(Get-ChildItem -LiteralPath $publicRoot -Recurse -File)
 Assert-True ($files.Count -gt 0) 'No public files found'
 Assert-True (@($files | Where-Object Extension -eq '.html').Count -eq 1) 'Expected a single HTML page'
 foreach ($file in $files) {
-    Assert-True ($file.Extension -in @('.html', '.css', '.js', '.svg')) "Unexpected public file: $($file.Name)"
+    Assert-True ($file.Extension -in @('.html', '.css', '.js', '.svg') -or $file.Name -in @('robots.txt', 'sitemap.xml')) "Unexpected public file: $($file.Name)"
     $text = [IO.File]::ReadAllText($file.FullName)
     Assert-True ($text -notmatch '\uFFFD') "Invalid encoding: $($file.Name)"
     Assert-True ($text -notmatch '(?i)(?:\+|00)32[\d\s().-]{8,}') "Potential phone number: $($file.Name)"
@@ -26,7 +26,7 @@ foreach ($file in $files) {
         $link = $match.Groups[1].Value
         Assert-True ($link -notmatch '(?i)\.(?:pdf|docx?|odt|rtf)(?:$|[#?])|^(?:javascript:|data:|http:)') "Disallowed link: $link"
         if ($link -match '^https://') {
-            Assert-True ($link -in @('https://www.linkedin.com/in/djieutcheusteve94', 'https://github.com/looker20')) "Unapproved external URL: $link"
+            Assert-True ($link -in @('https://www.linkedin.com/in/djieutcheusteve94', 'https://github.com/looker20', 'https://looker20.github.io/learn-github/')) "Unapproved external URL: $link"
             continue
         }
         if ($link -match '^mailto:') { continue }

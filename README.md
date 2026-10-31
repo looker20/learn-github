@@ -2,6 +2,8 @@
 
 Portfolio statique trilingue **français / anglais / néerlandais**, sur une seule page : présentation, expertises, réalisations, parcours et contact. HTML, CSS et JavaScript minimal, sans dépendance externe ni compilation.
 
+Adresse publique configurée : **https://looker20.github.io/learn-github/**. Suivre la publication dans l’onglet **Actions** du dépôt.
+
 ## Ouvrir le site
 
 Ouvrir `public/index.html` dans un navigateur. Pour un aperçu HTTP et les protections locales, utiliser PowerShell 5.1 ou supérieur :
@@ -55,10 +57,10 @@ Le CV sert uniquement de source privée. **Il n’est pas inclus, publié ou té
 
 Le site ne comporte ni formulaire, compte visiteur, cookies de suivi, outil analytique ni requête tierce au chargement. Seule la préférence de langue est enregistrée localement, sans transmission à un tiers. Les liens professionnels ne sont suivis que si activés. Un futur hébergeur peut conserver ses propres journaux techniques.
 
-## GitHub et futur hébergement
+## GitHub et publication
 
-GitHub conserve les sources et leur historique. Le site n’est pas encore déployé. Pour l’héberger, publier **uniquement le contenu de `public/`**, jamais la racine du dépôt. Voir [la préparation de l’hébergement](docs/hosting.md) et [le suivi sécurité](sécurité.md).
+Le dépôt est public à la demande du propriétaire. GitHub conserve les sources et l’historique ; GitHub Pages publie le portfolio. Le workflow `.github/workflows/pages.yml` vérifie le projet puis publie **uniquement `public/`**, jamais la racine du dépôt. Les changements de ce dossier sur `main` déclenchent une publication ; un lancement manuel est aussi possible dans Actions. Voir [la configuration d’hébergement](docs/hosting.md) et [le suivi sécurité](sécurité.md).
 
 Après modification : effectuer les contrôles, examiner `git diff`, créer un commit explicite puis envoyer sans force. Ne jamais versionner de secret. Vérifier les fichiers suivis en plus de `.gitignore`.
 
-Les protections HTTPS, MFA, domaine et en-têtes de production seront vérifiées lors de la mise en ligne. Les en-têtes du serveur local ne prouvent pas leur présence en production.
+HTTPS est imposé dans les réglages Pages. Les contrôles effectués sont consignés dans [le bilan](docs/verification.md). MFA et récupération restent à confirmer par le propriétaire. Ce workflow ne personnalise pas les en-têtes HTTP gérés par GitHub Pages ; la CSP embarquée reste présente. Les en-têtes locaux ne prouvent pas leur présence en production.

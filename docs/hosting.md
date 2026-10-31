@@ -1,6 +1,19 @@
 # Préparation de l’hébergement
 
-Le site n’est pas déployé. Publier uniquement le contenu de `public/`, jamais la racine du dépôt. Aucune installation ni compilation n’est nécessaire. Les liens fonctionnent également sous un préfixe de chemin.
+La publication utilise GitHub Pages. Le dépôt a été rendu public à la demande du propriétaire ; GitHub Pages est activé en mode GitHub Actions et HTTPS est imposé. Le workflow `.github/workflows/pages.yml` vérifie le projet puis publie uniquement `public/`, jamais la racine du dépôt. Les actions officielles sont épinglées sur des commits immuables et les permissions d’écriture sont limitées au travail de déploiement.
+
+## Activation GitHub Pages
+
+1. Dans `looker20/learn-github`, ouvrir **Settings → Pages** et sélectionner **GitHub Actions** comme source.
+2. Le dépôt est public sur décision explicite du propriétaire. Aucun abonnement pour dépôt privé n’est requis pour ce mode de publication.
+3. Envoyer le workflow préparé sur `main`, puis suivre **Actions → Deploy portfolio to GitHub Pages**.
+4. Vérifier la réussite du déploiement et l’URL retournée avant de partager le site.
+
+Adresse configurée : `https://looker20.github.io/learn-github/`. Le résultat du déploiement et les contrôles réels sont consignés dans `docs/verification.md`.
+
+Les changements ultérieurs de `public/` sur `main` déclencheront une nouvelle publication. Un lancement manuel sera également possible. Pour revenir à une version saine, rétablir les fichiers concernés par un nouveau commit, sans réécriture d’historique, puis relancer le workflow. Cette procédure de restauration reste à tester.
+
+GitHub Pages gère les réponses HTTP : les en-têtes personnalisés ci-dessous ne sont pas appliqués par ce workflow. La CSP embarquée dans le HTML reste présente ; ses directives qui exigent un en-tête, notamment `frame-ancestors`, devront être évaluées sur la réponse réelle. Ne pas déclarer toutes les protections actives sans vérification.
 
 ## Configuration recommandée
 

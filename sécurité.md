@@ -18,7 +18,7 @@ Le propriétaire gère les comptes, le domaine, les autorisations et les décisi
 | Dépôt, permissions et déploiement | Propriétaire et agent | Déploiement vérifié le 31/10/2026 ; protections de branche non inspectées | Dépôt public autorisé, workflow réussi, actions épinglées, permissions de déploiement limitées ; docs/verification.md |
 | Secrets et dépendances | Agent | Contrôlé localement le 31/10/2026 | Contrôle ciblé du code, des fichiers candidats Git et des ressources publiables ; aucune dépendance installée ; docs/verification.md |
 | Confidentialité des projets et du CV | Propriétaire et agent | Contrôlé localement le 31/10/2026 | CV absent du dépôt et du site, pas de téléchargement ; contenus professionnels sélectionnés, sans coordonnées exclues ; docs/verification.md |
-| HTTPS, domaine éventuel et en-têtes | Propriétaire et agent | HTTPS et HSTS vérifiés le 31/10/2026 ; limites d’en-têtes documentées | Redirection HTTPS, 8 ressources vérifiées, absence des en-têtes personnalisés constatée ; docs/verification.md |
+| HTTPS, domaine éventuel et en-têtes | Propriétaire et agent | HTTPS et HSTS vérifiés le 31/10/2026 ; limites d’en-têtes documentées | Redirection HTTPS, 9 ressources vérifiées, absence des en-têtes personnalisés constatée ; docs/verification.md |
 | Contact et données collectées | Propriétaire et agent | Choix confirmé et vérifié localement le 31/10/2026 | Liens e-mail, LinkedIn et GitHub ; aucun formulaire ni collecte applicative |
 | Surveillance, quotas et alertes | Propriétaire | À vérifier | Réglages et destinataire des alertes |
 | Sauvegarde et retour arrière | Propriétaire et agent | À vérifier | Test réel de restauration |

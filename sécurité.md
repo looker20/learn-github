@@ -18,7 +18,7 @@ Le propriétaire gère les comptes, le domaine, les autorisations et les décisi
 | Dépôt, permissions et déploiement | Propriétaire et agent | Déploiement vérifié le 31/10/2026 ; protections de branche non inspectées | Dépôt public autorisé, workflow réussi, actions épinglées, permissions de déploiement limitées ; docs/verification.md |
 | Secrets et dépendances | Agent | Contrôlé localement le 31/10/2026 | Contrôle ciblé du code, des fichiers candidats Git et des ressources publiables ; aucune dépendance installée ; docs/verification.md |
 | Confidentialité des projets et du CV | Propriétaire et agent | Contrôlé localement le 31/10/2026 | CV absent du dépôt et du site, pas de téléchargement ; contenus professionnels sélectionnés, sans coordonnées exclues ; docs/verification.md |
-| HTTPS, domaine éventuel et en-têtes | Propriétaire et agent | HTTPS et HSTS vérifiés le 31/10/2026 ; limites d’en-têtes documentées | Redirection HTTPS, 7 ressources vérifiées, absence des en-têtes personnalisés constatée ; docs/verification.md |
+| HTTPS, domaine éventuel et en-têtes | Propriétaire et agent | HTTPS et HSTS vérifiés le 31/10/2026 ; limites d’en-têtes documentées | Redirection HTTPS, 8 ressources vérifiées, absence des en-têtes personnalisés constatée ; docs/verification.md |
 | Contact et données collectées | Propriétaire et agent | Choix confirmé et vérifié localement le 31/10/2026 | Liens e-mail, LinkedIn et GitHub ; aucun formulaire ni collecte applicative |
 | Surveillance, quotas et alertes | Propriétaire | À vérifier | Réglages et destinataire des alertes |
 | Sauvegarde et retour arrière | Propriétaire et agent | À vérifier | Test réel de restauration |
@@ -34,6 +34,8 @@ GitHub Pages ne permet pas à ce workflow de personnaliser les en-têtes HTTP. L
 ## Confidentialité des réalisations
 
 Le CV sert uniquement de source privée : aucun original, copie, PDF, transcription intégrale, extraction intermédiaire ni lien de téléchargement dans le dépôt ou le site. Le téléphone et l’adresse précise sont exclus ; l’e-mail et les liens professionnels sont autorisés. Examiner les captures, schémas, dépôts, démonstrations et leurs métadonnées. Retirer ou anonymiser les noms de clients non autorisés, adresses internes, identifiants, données personnelles et jetons. Vérifier les contenus liés et conserver une trace non sensible des autorisations de publication.
+
+La publication du portrait retouché a été explicitement demandée. Seul le JPEG optimisé sans EXIF est versionné ; la photo originale reste hors du dépôt. Les nouvelles interactions s’exécutent localement dans le navigateur, sans transmission ni service tiers.
 
 ## Préparation de la restauration et des incidents
 

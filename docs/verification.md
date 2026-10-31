@@ -40,11 +40,12 @@ Les sorties et captures du navigateur sont générées sous `.local/`, exclu de 
 - Dépôt rendu public sur demande explicite du propriétaire, sans document CV dans le dépôt ou l’historique examiné.
 - Pages activé en mode GitHub Actions, HTTPS imposé.
 - Premier déploiement réussi : [workflow 41207065640](https://github.com/looker20/learn-github/actions/runs/41207065640), révision `a962a8dc62c2d0a59770d421797f0b3e9f8afbd6`.
+- Mise à jour portrait et interactions réussie : [workflow 41208946244](https://github.com/looker20/learn-github/actions/runs/41208946244), révision `f56f2751acb51ab8c911de1b61e47bc467b182ca` ; essais navigateur sur l’URL publique réussis dans les trois langues aux trois largeurs.
 - Adresse vérifiée : **https://looker20.github.io/learn-github/**.
-- Les sept fichiers publics répondent en HTTPS 200 et correspondent au contenu local après normalisation des fins de ligne.
+- Les huit fichiers publics répondent en HTTPS 200 et correspondent au contenu local après normalisation des fins de ligne pour les textes ; le JPEG publié possède la même empreinte SHA-256 que le fichier attendu et le type `image/jpeg`.
 - HTTP redirige vers HTTPS. HSTS observé : `max-age=31556952`.
 - `/AGENTS.md`, `/README.md`, `/.git/config` et l’ancienne page `/en/index.html` répondent 404 sur le site. Les documents suivis restent visibles dans le dépôt public.
-- Neuf scénarios navigateur sur l’URL réelle : FR/EN/NL à 360, 768 et 1280 pixels. Menu, contrastes, clavier, traduction sur place, persistance, langue navigateur, repli et stockage bloqué passent.
+- Neuf scénarios navigateur sur l’URL réelle : FR/EN/NL à 360, 768 et 1280 pixels. Portrait, filtres au clavier, annonces de résultats traduites, progression de lecture, section active, contrastes, menu, traduction sur place, persistance, repli et stockage bloqué passent. Le mode mouvement réduit désactive les animations et les transformations de révélation.
 - Aucune requête tierce ni erreur JavaScript ou CSP observée pendant les essais.
 - CSP, nosniff, X-Frame-Options, Referrer-Policy et Permissions-Policy absents des en-têtes HTTP de production observés. La CSP et la politique de référent intégrées à la page restent disponibles ; `frame-ancestors` ne fonctionne pas via une balise meta. Aucun en-tête local n’est présenté comme actif en production.
 

@@ -2,13 +2,13 @@
 
 ## Périmètre
 
-Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé localement sous Windows avec Chrome en mode headless. Aucun hébergement public n’a été créé. Les scripts et résultats décrivent des contrôles ciblés, pas une certification de sécurité ou d’accessibilité.
+Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé localement et sur GitHub Pages avec Chrome en mode headless. Les scripts et résultats décrivent des contrôles ciblés, pas une certification de sécurité ou d’accessibilité.
 
 ## Contrôles effectués
 
 | Contrôle | Résultat et preuve |
 | --- | --- |
-| Structure statique | 5 fichiers publiables : une page HTML, CSS, navigation/traduction, catalogue de traductions et favicon SVG ; aucune dépendance d’exécution |
+| Structure statique | 7 fichiers publiables : une page HTML, CSS, navigation/traduction, catalogue de traductions, favicon SVG, robots.txt et sitemap.xml ; aucune dépendance d’exécution |
 | Liens locaux et ancres | 14 références contrôlées par `scripts/Verify.ps1`, sans référence manquante ; une seule page HTML |
 | Métadonnées | Attribut lang, titre et description mis à jour avec la langue choisie ; CSP présente |
 | Confidentialité du CV | Aucun document original, PDF, copie, extraction ou téléchargement dans les fichiers publiables et candidats Git ; revue du contenu sélectionné |
@@ -32,13 +32,32 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 
 Les sorties et captures du navigateur sont générées sous `.local/`, exclu de Git. Relancer les scripts permet de les reproduire. Les liens externes ont été contrôlés comme destinations, sans connexion aux comptes ni vérification du fonctionnement d’une messagerie locale.
 
+## Publication GitHub Pages vérifiée
+
+- Dépôt rendu public sur demande explicite du propriétaire, sans document CV dans le dépôt ou l’historique examiné.
+- Pages activé en mode GitHub Actions, HTTPS imposé.
+- Premier déploiement réussi : [workflow 41207065640](https://github.com/looker20/learn-github/actions/runs/41207065640), révision `a962a8dc62c2d0a59770d421797f0b3e9f8afbd6`.
+- Adresse vérifiée : **https://looker20.github.io/learn-github/**.
+- Les sept fichiers publics répondent en HTTPS 200 et correspondent au contenu local après normalisation des fins de ligne.
+- HTTP redirige vers HTTPS. HSTS observé : `max-age=31556952`.
+- `/AGENTS.md`, `/README.md`, `/.git/config` et l’ancienne page `/en/index.html` répondent 404 sur le site. Les documents suivis restent visibles dans le dépôt public.
+- Neuf scénarios navigateur sur l’URL réelle : FR/EN/NL à 360, 768 et 1280 pixels. Menu, contrastes, clavier, traduction sur place, persistance, langue navigateur, repli et stockage bloqué passent.
+- Aucune requête tierce ni erreur JavaScript ou CSP observée pendant les essais.
+- CSP, nosniff, X-Frame-Options, Referrer-Policy et Permissions-Policy absents des en-têtes HTTP de production observés. La CSP et la politique de référent intégrées à la page restent disponibles ; `frame-ancestors` ne fonctionne pas via une balise meta. Aucun en-tête local n’est présenté comme actif en production.
+
+Reproduire les essais navigateur du site publié :
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Test-Browser.ps1 -BaseUrl https://looker20.github.io/learn-github -Deployed
+```
+
 ## Limites et contrôles ultérieurs
 
 - Pas de test sur Safari, Firefox, appareils physiques ou lecteur d’écran ; revue complémentaire recommandée avant publication web.
 - Le contrôle des contrastes ne couvre pas toutes les combinaisons de survol, styles système ou rendu d’extensions.
-- HTTPS, certificats, en-têtes de production, DNS, domaine, protections DDoS et surveillance restent à configurer et vérifier chez le futur hébergeur.
+- Un domaine personnalisé, les alertes et la surveillance restent à décider. Les protections DDoS du fournisseur n’ont pas fait l’objet d’un test de charge.
 - MFA, récupération des comptes, protections de branche et permissions GitHub n’ont pas été inspectés ou modifiés.
-- Aucun retour arrière d’un hébergement n’a été testé ; aucun hébergement n’existe à cette étape.
+- La procédure de retour arrière est documentée, mais aucun retour arrière du site en ligne n’a été exécuté.
 - La description des missions repose sur le CV et les confirmations de dates. Aucune preuve interne ou mesure de performance n’est publiée.
 - Les noms d’entreprises sont ceux des expériences demandées pour le portfolio ; leur présence n’implique aucun partenariat ni soutien.
 

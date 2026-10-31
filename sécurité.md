@@ -2,7 +2,7 @@
 
 ## Périmètre et responsabilités
 
-La première version définie dans [plans.md](plans.md) est un portfolio statique trilingue sur une seule page, destiné au public mais non hébergé à cette étape. Aucun compte visiteur, formulaire, base de données, téléversement ni serveur de production administré. Contact par e-mail, LinkedIn et GitHub. Seule la préférence de langue est mémorisée localement, sans transmission. Les traductions sont locales et ne passent pas par un service tiers. Toute extension impose de réévaluer les mesures conditionnelles.
+La première version définie dans [plans.md](plans.md) est un portfolio statique trilingue sur une seule page, publié sur GitHub Pages à la demande du propriétaire. Le dépôt est public sur instruction explicite. Aucun compte visiteur, formulaire, base de données, téléversement ni serveur de production administré. Contact par e-mail, LinkedIn et GitHub. Seule la préférence de langue est mémorisée localement, sans transmission. Les traductions sont locales et ne passent pas par un service tiers. Toute extension impose de réévaluer les mesures conditionnelles.
 
 Le propriétaire gère les comptes, le domaine, les autorisations et les décisions de risque. L’agent prépare le code, la configuration et les vérifications accessibles. Les protections déléguées à un hébergeur restent à confirmer et à vérifier.
 
@@ -15,15 +15,21 @@ Le propriétaire gère les comptes, le domaine, les autorisations et les décisi
 | Périmètre et inventaire des services tiers | Propriétaire et agent | Vérifié localement le 31/10/2026 | Site statique sans dépendance ni requête tierce au chargement ; docs/verification.md |
 | MFA et récupération des comptes | Propriétaire | À vérifier | Confirmation datée sans donnée sensible |
 | Poste et accès de développement | Propriétaire | À vérifier | Revue datée |
-| Dépôt, permissions et déploiement | Propriétaire et agent | À vérifier | Revue des réglages et workflows |
+| Dépôt, permissions et déploiement | Propriétaire et agent | Déploiement vérifié le 31/10/2026 ; protections de branche non inspectées | Dépôt public autorisé, workflow réussi, actions épinglées, permissions de déploiement limitées ; docs/verification.md |
 | Secrets et dépendances | Agent | Contrôlé localement le 31/10/2026 | Contrôle ciblé du code, des fichiers candidats Git et des ressources publiables ; aucune dépendance installée ; docs/verification.md |
 | Confidentialité des projets et du CV | Propriétaire et agent | Contrôlé localement le 31/10/2026 | CV absent du dépôt et du site, pas de téléchargement ; contenus professionnels sélectionnés, sans coordonnées exclues ; docs/verification.md |
-| HTTPS, domaine éventuel et en-têtes | Propriétaire et agent | À vérifier | Contrôle du site déployé et limites identifiées |
+| HTTPS, domaine éventuel et en-têtes | Propriétaire et agent | HTTPS et HSTS vérifiés le 31/10/2026 ; limites d’en-têtes documentées | Redirection HTTPS, 7 ressources vérifiées, absence des en-têtes personnalisés constatée ; docs/verification.md |
 | Contact et données collectées | Propriétaire et agent | Choix confirmé et vérifié localement le 31/10/2026 | Liens e-mail, LinkedIn et GitHub ; aucun formulaire ni collecte applicative |
 | Surveillance, quotas et alertes | Propriétaire | À vérifier | Réglages et destinataire des alertes |
 | Sauvegarde et retour arrière | Propriétaire et agent | À vérifier | Test réel de restauration |
 
 Chaque ligne doit être vérifiée ou justifiée comme non applicable avant publication. Toute exception décrit le risque restant, la décision du propriétaire, la compensation et la date de réexamen. Aucun état ci-dessus ne certifie une protection déjà mise en œuvre.
+
+### Limites de la publication GitHub Pages
+
+Le propriétaire a demandé explicitement la publication sur GitHub Pages et le passage du dépôt en public. Les contrôles MFA, récupération, poste et protections de branche restent non vérifiés ; aucune confirmation de leur activation n’est présumée. Le propriétaire conserve leur responsabilité.
+
+GitHub Pages ne permet pas à ce workflow de personnaliser les en-têtes HTTP. Les réponses observées ne contiennent pas CSP, nosniff, X-Frame-Options, Referrer-Policy ni Permissions-Policy. Les compensations actuelles sont la CSP et la politique de référent intégrées au HTML, l’absence de ressources distantes, de comptes, de formulaire et d’opérations sensibles. Ces mesures ne remplacent pas tous les en-têtes manquants, notamment la protection contre l’intégration en iframe. Réexaminer le choix d’hébergement avant tout ajout dynamique ou sensible et lors de la revue trimestrielle. Ce constat n’est pas une certification ni une déclaration d’acceptation d’audit par le propriétaire.
 
 ## Confidentialité des réalisations
 

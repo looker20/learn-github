@@ -17,11 +17,11 @@ Une seule page avec un menu Français / English / Nederlands qui traduit le cont
 1. Accueil : titre, introduction et liens vers les réalisations et le contact.
 2. Présentation : synthèse du parcours et intérêts professionnels.
 3. Expertises : observabilité, automatisation, réseaux, virtualisation et cloud.
-4. Réalisations : supervision applicative chez Infrabel, MPLS chez CAMTEL, FTTH chez TELEINFRA.
+4. Réalisations : ELK livré avec manuels et accompagnement, Nagios livré, mesure de productivité IA en cours ; expériences MPLS et FTTH présentées séparément.
 5. Parcours : sélection d’expériences, de formations et langues parlées.
 6. Contact : e-mail, LinkedIn et GitHub.
 
-Fond clair, bleu profond, accents turquoise et typographie système. Portrait professionnel retouché à partir de la photo fournie, intégré à l’accueil ; l’original reste hors du dépôt. Aucun résultat chiffré, niveau d’expertise, témoignage ou certification inventé.
+Deux modes sélectionnables : clair en tons pierre/sauge et sombre en tons ardoise/vert doux. Textes courants de 17 à 18 pixels, textes secondaires d’au moins 14 pixels. Le choix suit d’abord le système puis la préférence manuelle mémorisée, indépendamment de la langue. Portrait professionnel retouché intégré à l’accueil ; l’original reste hors du dépôt. Aucun résultat chiffré, niveau d’expertise, témoignage ou certification inventé.
 
 ## Informations confirmées et limites
 
@@ -31,6 +31,9 @@ Fond clair, bleu profond, accents turquoise et typographie système. Portrait pr
 - Les formations et outils présentés sont une sélection, sans équivalence de diplôme étrangère inventée.
 - Les réalisations sont décrites sans architecture interne, donnée client ni preuve confidentielle.
 - Le schéma d’observabilité est conceptuel, pas une représentation du système interne.
+- Confirmé par le propriétaire : deux projets livrés, ELK et Nagios ; un projet en cours sur l’impact de l’usage de l’IA par les équipes de développement sur leur productivité.
+- La livraison ELK inclut un manuel de configuration, un manuel d’utilisation et une aide à la prise en main. Les documents ne sont pas fournis pour publication : les présenter sans lien de téléchargement fictif.
+- Aucun employeur, calendrier, résultat chiffré ou méthodologie supplémentaire n’est attribué aux nouveaux projets sans confirmation. Les stages réseau sont hors de ces compteurs.
 
 ## Réalisation
 

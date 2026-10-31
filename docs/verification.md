@@ -8,12 +8,12 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 
 | Contrôle | Résultat et preuve |
 | --- | --- |
-| Structure statique | 8 fichiers publiables : une page HTML, CSS, navigation/traduction, catalogue de traductions, favicon SVG, portrait JPEG, robots.txt et sitemap.xml ; aucune dépendance d’exécution |
-| Liens locaux et ancres | 16 références contrôlées par `scripts/Verify.ps1`, sans référence manquante ; une seule page HTML |
+| Structure statique | 9 fichiers publiables : une page HTML, CSS, initialisation du thème, navigation/traduction, catalogue de traductions, favicon SVG, portrait JPEG, robots.txt et sitemap.xml ; aucune dépendance d’exécution |
+| Liens locaux et ancres | 19 références contrôlées par `scripts/Verify.ps1`, sans référence manquante ; une seule page HTML |
 | Métadonnées | Attribut lang, titre et description mis à jour avec la langue choisie ; CSP présente |
 | Confidentialité du CV | Aucun document original, PDF, copie, extraction ou téléchargement dans les fichiers publiables et candidats Git ; revue du contenu sélectionné |
 | Coordonnées | E-mail, LinkedIn et GitHub uniquement ; absence du téléphone et de l’adresse précise vérifiée |
-| Affichage | 18 scénarios : 3 langues × 3 largeurs (360, 768, 1280) × 2 préfixes (racine et `/portfolio/`), sans débordement horizontal |
+| Affichage | 36 scénarios locaux : 2 thèmes × 3 langues × 3 largeurs (360, 768, 1280) × 2 préfixes (racine et `/portfolio/`), sans débordement horizontal |
 | Contrastes | Texte visible contrôlé sur ses fonds CSS, seuil 4,5:1 pour le texte courant et 3:1 pour le grand texte ; aucune insuffisance détectée par le contrôle ciblé |
 | Navigation | Menu mobile au clavier, fermeture avec Échap et retour du focus, navigation vers une section ; menu FR/EN/NL sans navigation, changement d’URL ni remplacement du contenu DOM |
 | Traduction | Titres et libellés accessibles traduits ; états des détails et section courante conservés ; choix mémorisé après rechargement |
@@ -25,7 +25,8 @@ Portfolio statique français/anglais/néerlandais sur une seule page, contrôlé
 | Accès rapide | Lien d’évitement utilisable au clavier et focus visible |
 | Sans JavaScript | Navigation visible et contenu français lisible à 360 pixels ; menu de langue masqué |
 | Portrait | JPEG 800 × 1000, 107 272 octets, sans EXIF ; chargé aux trois largeurs, texte alternatif traduit ; photo originale exclue du dépôt |
-| Filtres | Sélection au clavier : 2 réalisations réseau, 1 observabilité ou les 3 ; filtre conservé au changement de langue et compte rendu accessible traduit |
+| Filtres | 2 projets livrés (ELK et Nagios), 1 projet IA en cours et 2 expériences réseau de stage ; les compteurs excluent les stages. Filtres par état et domaine, raccourcis des compteurs, conservation au changement de langue et annonce accessible traduite vérifiés |
+| Thèmes et lisibilité | Clair pierre/sauge et sombre ardoise/vert ; textes visibles d’au moins 14 pixels et corps de 17–18 pixels ; contrastes vérifiés dans les deux modes. Choix mémorisé, priorité sur le système, valeurs invalides et stockage bloqué testés |
 | Interactions et mouvement | Progression de lecture mise à jour, section active indiquée, apparition au défilement ; aucune animation ou transformation persistante en mode mouvement réduit |
 | Mouvement réduit | Défilement fluide désactivé lorsque la préférence système est active |
 | Réseau navigateur | Aucune requête tierce, violation CSP ou exception JavaScript observée pendant les essais |

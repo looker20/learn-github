@@ -10,7 +10,7 @@ if (languageSelect && typeof portfolioTranslations !== 'undefined') {
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   while (walker.nextNode()) {
     const node = walker.currentNode;
-    if (node.parentElement.closest('script, style, select, noscript, [role=status]')) continue;
+    if (node.parentElement.closest('script, style, #language, noscript, [role=status]')) continue;
     const key = node.textContent.trim();
     if (key) bindings.push({ node, original: node.textContent, key });
   }
@@ -52,7 +52,7 @@ if (languageSelect && typeof portfolioTranslations !== 'undefined') {
 const projectFilters = document.querySelector('.project-filters');
 if (projectFilters) {
   const projects = Array.from(document.querySelectorAll('[data-project-topic]'));
-  const projectGrid = document.querySelector('.project-grid');
+  const projectGroups = Array.from(document.querySelectorAll('[data-project-group]'));
   const projectStatus = document.querySelector('#project-status');
   const announceResults = () => {
     const count = projects.filter(project => !project.hidden).length;
@@ -72,9 +72,37 @@ if (projectFilters) {
     if (!button) return;
     const filter = button.dataset.projectFilter;
     for (const control of projectFilters.querySelectorAll('button')) control.setAttribute('aria-pressed', String(control === button));
-    for (const project of projects) project.hidden = filter !== 'all' && project.dataset.projectTopic !== filter;
-    projectGrid.hidden = !projectGrid.querySelector('[data-project-topic]:not([hidden])');
+    for (const project of projects) {
+      project.hidden = filter !== 'all' && project.dataset.projectTopic !== filter && project.dataset.projectState !== filter;
+    }
+    for (const group of projectGroups) group.hidden = !group.querySelector('[data-project-topic]:not([hidden])');
     announceResults();
+  });
+  document.querySelectorAll('[data-summary-filter]').forEach(link => {
+    link.addEventListener('click', () => projectFilters.querySelector(`[data-project-filter="${link.dataset.summaryFilter}"]`).click());
+  });
+}
+
+const themeSelect = document.querySelector('#theme');
+if (themeSelect) {
+  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+  let manualTheme;
+  try { manualTheme = localStorage.getItem('portfolio-theme'); } catch { /* Optional storage. */ }
+  if (!['light', 'dark'].includes(manualTheme)) manualTheme = null;
+  const setTheme = theme => {
+    document.documentElement.dataset.theme = theme;
+    themeSelect.value = theme;
+    document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#152126' : '#e8e5de';
+  };
+  setTheme(manualTheme || (systemTheme.matches ? 'dark' : 'light'));
+  themeSelect.closest('.theme-switch').hidden = false;
+  themeSelect.addEventListener('change', () => {
+    manualTheme = themeSelect.value;
+    setTheme(manualTheme);
+    try { localStorage.setItem('portfolio-theme', manualTheme); } catch { /* Works for this visit. */ }
+  });
+  systemTheme.addEventListener('change', () => {
+    if (!manualTheme) setTheme(systemTheme.matches ? 'dark' : 'light');
   });
 }
 

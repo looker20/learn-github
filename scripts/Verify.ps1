@@ -28,6 +28,9 @@ foreach ($file in $files) {
     Assert-True ($text -match '<html lang="(?:fr|en)"') 'Missing page language'
     Assert-True ($text -match '<select id="language"' -and $text -match 'value="fr"' -and $text -match 'value="en"' -and $text -match 'value="nl"') 'Missing three-language selector'
     Assert-True ($text -match 'name="description"' -and $text -match 'Content-Security-Policy') 'Missing metadata or CSP'
+    Assert-True ($text -match '<select id="theme"' -and $text -match 'value="light"' -and $text -match 'value="dark"') 'Missing theme selector'
+    Assert-True (([regex]::Matches($text, 'data-project-state="delivered"')).Count -eq 2) 'Expected two delivered projects'
+    Assert-True (([regex]::Matches($text, 'data-project-state="ongoing"')).Count -eq 1) 'Expected one ongoing project'
     foreach ($match in [regex]::Matches($text, '(?:href|src)="([^"]+)"')) {
         $link = $match.Groups[1].Value
         Assert-True ($link -notmatch '(?i)\.(?:pdf|docx?|odt|rtf)(?:$|[#?])|^(?:javascript:|data:|http:)') "Disallowed link: $link"

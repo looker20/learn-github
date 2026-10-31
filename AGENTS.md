@@ -42,6 +42,8 @@ Conserver le code source et la documentation sur GitHub afin de pouvoir consulte
 - Prévoir un affichage adapté au mobile et à l’ordinateur.
 - Utiliser du HTML sémantique et une navigation accessible.
 - Assurer la lisibilité, les contrastes et le focus clavier.
+- Maintenir les modes clair et sombre, les textes lisibles et le thème choisi au changement de langue. Vérifier les contrastes dans les deux modes.
+- Le bilan confirmé est de deux projets livrés (ELK et Nagios) et un projet en cours (mesure de productivité liée à l’IA). Présenter les expériences réseau de stage à part. Ne pas inventer de gain de productivité ni publier les manuels sans les documents et l’autorisation nécessaires.
 - Optimiser les images et limiter les ressources chargées.
 - Prévoir les informations utiles au référencement.
 - Organiser les fichiers de manière claire.

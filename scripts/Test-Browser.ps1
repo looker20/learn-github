@@ -70,6 +70,10 @@ function Switch-Language([ValidateSet('fr', 'en', 'nl')][string]$Language) {
     $samePage = Evaluate "(() => { const main = document.querySelector('main'), url = location.href, select = document.querySelector('#language'); select.focus(); select.value = '$Language'; select.dispatchEvent(new Event('change', { bubbles: true })); return main === document.querySelector('main') && url === location.href && document.activeElement === select; })()"
     Assert-True $samePage 'Language change replaced the page, URL or focus'
 }
+function Switch-Theme([ValidateSet('light', 'dark')][string]$Theme) {
+    $samePage = Evaluate "(() => { const main = document.querySelector('main'), url = location.href, select = document.querySelector('#theme'); select.focus(); select.value = '$Theme'; select.dispatchEvent(new Event('change', { bubbles: true })); return main === document.querySelector('main') && url === location.href && document.activeElement === select && document.documentElement.dataset.theme === '$Theme'; })()"
+    Assert-True $samePage 'Theme change failed or replaced page, URL or focus'
+}
 try {
     $arguments = @('--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check', '--remote-debugging-port=0', ('--user-data-dir="' + $profilePath + '"'), 'about:blank')
     $browserProcess = Start-Process -FilePath $browserPath -ArgumentList $arguments -WindowStyle Hidden -PassThru
@@ -84,12 +88,14 @@ try {
     foreach ($domain in @('Page.enable', 'Runtime.enable', 'Log.enable', 'Network.enable')) { Invoke-CDP $domain | Out-Null }
     $prefixes = if ($Deployed) { @('') } else { @('', '/portfolio') }
     foreach ($prefix in $prefixes) {
+        foreach ($theme in @('light', 'dark')) {
         foreach ($language in @('fr', 'en', 'nl')) {
             $path = '/index.html'
             foreach ($width in @(360, 768, 1280)) {
                 Invoke-CDP 'Emulation.setDeviceMetricsOverride' @{ width = $width; height = 900; deviceScaleFactor = 1; mobile = $false } | Out-Null
                 Navigate ($BaseUrl + $prefix + $path)
                 Switch-Language $language
+                Switch-Theme $theme
                 Assert-True ((Evaluate 'document.documentElement.lang') -eq $language) 'Incorrect language'
                 Assert-True (Evaluate 'Object.keys(portfolioTranslations.en).every(key => typeof portfolioTranslations.nl[key] === "string" && portfolioTranslations.nl[key].length > 0)') 'Incomplete translation catalogue'
                 $expectedHeading = @{ fr = 'Comprendre les'; en = 'Understand systems'; nl = 'Systemen begrijpen' }[$language]
@@ -104,6 +110,8 @@ try {
                 Assert-True (Evaluate 'Array.from(document.styleSheets).some(s => s.cssRules.length > 20)') 'Stylesheet not loaded'
                 Assert-True (Evaluate 'document.querySelectorAll("main section").length === 6') 'Missing sections'
                 Assert-True (Evaluate 'document.querySelectorAll("[download],form,iframe").length === 0') 'Unexpected public feature'
+                Assert-True (Evaluate 'document.querySelectorAll("[data-project-state=delivered]").length === 2 && document.querySelectorAll("[data-project-state=ongoing]").length === 1 && document.querySelector("[data-summary-filter=delivered] strong").textContent === "2" && document.querySelector("[data-summary-filter=ongoing] strong").textContent === "1"') 'Project status counters differ from confirmed facts'
+                Assert-True (Evaluate 'Array.from(document.querySelectorAll("body *")).filter(el => el.getClientRects().length && Array.from(el.childNodes).some(node => node.nodeType === 3 && node.textContent.trim())).every(el => parseFloat(getComputedStyle(el).fontSize) >= 14)') 'Text below the minimum readable size'
                 $contrastFailures = Evaluate @'
 (() => {
   const rgb = value => (value.match(/[\d.]+/g) || []).map(Number);
@@ -129,10 +137,15 @@ try {
                 Switch-Language $language
                 $expectedResult = @{ fr = '2 réalisations affichées.'; en = '2 projects shown.'; nl = '2 projecten weergegeven.' }[$language]
                 Assert-True ((Evaluate 'document.querySelector("#project-status").textContent') -eq $expectedResult) 'Accessible filter status not translated'
+                Assert-True ((Evaluate 'document.documentElement.dataset.theme') -eq $theme) 'Language change lost theme'
                 Evaluate 'document.querySelector("[data-project-filter=observability]").click()' | Out-Null
-                Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 1 && document.querySelector(".project-grid").hidden') 'Observability filter failed'
+                Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 2 && document.querySelector("[data-project-group=academic]").hidden') 'Observability filter failed'
+                Evaluate 'document.querySelector("[data-summary-filter=delivered]").click()' | Out-Null
+                Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 2 && Array.from(document.querySelectorAll("[data-project-topic]:not([hidden])")).every(p => p.dataset.projectState === "delivered")') 'Delivered-project summary filter failed'
+                Evaluate 'document.querySelector("[data-summary-filter=ongoing]").click()' | Out-Null
+                Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 1 && document.querySelector("[data-project-topic=ai]").hidden === false') 'Ongoing-project summary filter failed'
                 Evaluate 'document.querySelector("[data-project-filter=all]").click()' | Out-Null
-                Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 3 && !document.querySelector(".project-grid").hidden') 'All-projects filter failed'
+                Assert-True (Evaluate 'document.querySelectorAll("[data-project-topic]:not([hidden])").length === 5 && !document.querySelector("[data-project-group=academic]").hidden') 'All-projects filter failed'
                 if ($width -lt 901) {
                     Evaluate 'document.querySelector(".menu-toggle").focus()' | Out-Null
                     Press-Key 'Enter' 'Enter' 13
@@ -153,20 +166,33 @@ try {
                 Evaluate 'Promise.all(document.getAnimations().map(animation => animation.finished.catch(() => {}))).then(() => true)' | Out-Null
                 $suffix = if ($prefix) { '-prefix' } else { '' }
                 $screenshot = Invoke-CDP 'Page.captureScreenshot' @{ format = 'png'; captureBeyondViewport = $false }
-                [IO.File]::WriteAllBytes((Join-Path $outputDir "$language-$width$suffix.png"), [Convert]::FromBase64String($screenshot.data))
+                [IO.File]::WriteAllBytes((Join-Path $outputDir "$language-$theme-$width$suffix.png"), [Convert]::FromBase64String($screenshot.data))
                 if (-not $prefix -and $width -eq 1280) {
                     $metrics = Invoke-CDP 'Page.getLayoutMetrics'
                     $fullImage = Invoke-CDP 'Page.captureScreenshot' @{ format = 'png'; captureBeyondViewport = $true; clip = @{ x = 0; y = 0; width = 1280; height = $metrics.cssContentSize.height; scale = 1 } }
-                    [IO.File]::WriteAllBytes((Join-Path $outputDir "$language-full.png"), [Convert]::FromBase64String($fullImage.data))
+                    [IO.File]::WriteAllBytes((Join-Path $outputDir "$language-$theme-full.png"), [Convert]::FromBase64String($fullImage.data))
                 }
-                $results.Add("PASS $language $prefix width=$width : layout, text contrast, local styles, content, menu and details")
+                $results.Add("PASS $language $theme $prefix width=$width : layout, readable type, contrast, project counters, filters and keyboard")
             }
             Evaluate 'document.querySelector("details").open = true; window.location.hash = "projects"' | Out-Null
             Switch-Language $language
             Assert-True (Evaluate 'document.querySelector("details").open && location.hash === "#projects"') 'Language switch lost section state'
             Navigate ($BaseUrl + $prefix + $path)
             Assert-True ((Evaluate 'document.documentElement.lang') -eq $language) 'Saved preference lost after reload'
+            Assert-True ((Evaluate 'document.documentElement.dataset.theme') -eq $theme) 'Saved theme lost after reload'
         }
+        }
+    }
+    foreach ($scenario in @(
+        @{ system = 'dark'; saved = ''; expected = 'dark' },
+        @{ system = 'light'; saved = 'invalid'; expected = 'light' },
+        @{ system = 'dark'; saved = 'light'; expected = 'light' }
+    )) {
+        $saved = $scenario.saved
+        Evaluate "localStorage.setItem('portfolio-theme', '$saved')" | Out-Null
+        Invoke-CDP 'Emulation.setEmulatedMedia' @{ features = @(@{ name = 'prefers-color-scheme'; value = $scenario.system }) } | Out-Null
+        Navigate ($BaseUrl + '/index.html')
+        Assert-True ((Evaluate 'document.documentElement.dataset.theme') -eq $scenario.expected) 'System theme or manual preference priority failed'
     }
     # A valid saved preference has priority; unsupported preferences fall back to browser languages.
     foreach ($scenario in @(
@@ -188,6 +214,7 @@ try {
     $blockedStorage = Invoke-CDP 'Page.addScriptToEvaluateOnNewDocument' @{ source = 'Object.defineProperty(window, "localStorage", { get() { throw new DOMException("Blocked", "SecurityError"); } });' }
     Navigate ($BaseUrl + '/index.html')
     Switch-Language 'nl'
+    Switch-Theme 'dark'
     Assert-True ((Evaluate 'document.documentElement.lang') -eq 'nl') 'Switching failed with blocked storage'
     Invoke-CDP 'Page.removeScriptToEvaluateOnNewDocument' @{ identifier = $blockedStorage.identifier } | Out-Null
     $results.Add('PASS browser language, regional variants, saved preference, unsupported-language fallback and blocked storage')
@@ -200,7 +227,7 @@ try {
         Assert-True (Evaluate 'getComputedStyle(document.querySelector("#navigation")).display !== "none" && document.querySelector(".menu-toggle").hidden') 'No-JavaScript navigation failed'
         Assert-True (Evaluate 'document.documentElement.scrollWidth <= innerWidth') 'No-JavaScript overflow'
         Assert-True (Evaluate 'document.querySelector(".language-switch").hidden && document.documentElement.lang === "fr"') 'No-JavaScript fallback failed'
-        Assert-True (Evaluate 'document.querySelector(".project-filters").hidden && document.querySelectorAll("[data-project-topic]:not([hidden])").length === 3 && document.querySelector(".portrait-frame img").naturalWidth === 800') 'No-JavaScript portrait or projects unavailable'
+        Assert-True (Evaluate 'document.querySelector(".project-filters").hidden && document.querySelector(".theme-switch").hidden && document.querySelectorAll("[data-project-topic]:not([hidden])").length === 5 && document.querySelector(".portrait-frame img").naturalWidth === 800') 'No-JavaScript portrait or projects unavailable'
         $results.Add("PASS $language without JavaScript: visible navigation and readable layout")
         Invoke-CDP 'Emulation.setScriptExecutionDisabled' @{ value = $false } | Out-Null
     }
@@ -227,7 +254,7 @@ try {
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   while (walker.nextNode()) {
     const node = walker.currentNode;
-    if (!node.parentElement.closest('script, style, select, noscript, [role=status]') && node.textContent.trim()) keys.push(node.textContent.trim());
+    if (!node.parentElement.closest('script, style, #language, noscript, [role=status]') && node.textContent.trim()) keys.push(node.textContent.trim());
   }
   return keys.filter(key => !Object.hasOwn(portfolioTranslations.en, key) || !Object.hasOwn(portfolioTranslations.nl, key));
 })()

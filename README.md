@@ -26,10 +26,19 @@ Le menu propose Français, English et Nederlands. Le changement traduit le conte
 
 Au premier accès, le site utilise la première langue prise en charge dans les préférences du navigateur (dont en-GB, nl-BE et fr-BE), sinon le français. Le choix manuel est conservé dans `localStorage` sous `portfolio-language` et devient prioritaire. Si le stockage est bloqué, le changement fonctionne pour la visite en cours. Sans JavaScript, le contenu français et la navigation restent lisibles ; le menu de langue est masqué.
 
-## Organisation
+## Apparence et lisibilité
+
+Le sélecteur d’apparence propose **Clair / Sombre**. Le mode clair emploie des tons pierre et sauge ; le mode sombre des tons ardoise et vert doux. Au premier accès, la préférence système est utilisée. Le choix manuel, mémorisé localement sous `portfolio-theme`, devient prioritaire. Le thème reste identique au changement de langue et fonctionne pour la visite même si le stockage est bloqué. Un petit script local initialise le thème avant le CSS pour éviter un éclair clair au chargement.
+
+Les textes courants font 17 à 18 pixels et les textes secondaires au moins 14 pixels. Les contrastes sont vérifiés dans les deux modes.
+
+Le bilan affiché est de **2 projets livrés** (ELK, Nagios) et **1 projet en cours** (mesure de productivité liée à l’IA). Les manuels de configuration et d’utilisation ainsi que l’accompagnement sont mentionnés pour ELK ; aucun document privé n’est publié. Les expériences de stage réseau sont présentées séparément et ne sont pas ajoutées à ces compteurs.
+
+## Organisation des fichiers
 
 - `public/index.html` : page unique, avec contenu français de repli.
 - `public/assets/translations.js` : traductions anglaises et néerlandaises.
+- `public/assets/theme.js` : initialisation du thème avant affichage.
 - `public/assets/` : styles, navigation et favicon.
 - `scripts/` : aperçu local et vérifications.
 - `docs/` : préparation de l’hébergement et bilan de vérification.
@@ -59,7 +68,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Test-Browser.ps1
 
 Le CV sert uniquement de source privée. **Il n’est pas inclus, publié ou téléchargeable.** Ne pas ajouter d’original, copie, PDF ou transcription intégrale. L’adresse précise et le téléphone sont exclus. La sélection d’informations professionnelles, l’e-mail et les liens professionnels sont publics dans le code.
 
-Le site ne comporte ni formulaire, compte visiteur, cookies de suivi, outil analytique ni requête tierce au chargement. Seule la préférence de langue est enregistrée localement, sans transmission à un tiers. Les liens professionnels ne sont suivis que si activés. Un futur hébergeur peut conserver ses propres journaux techniques.
+Le site ne comporte ni formulaire, compte visiteur, cookies de suivi, outil analytique ni requête tierce au chargement. Seules les préférences de langue et de thème sont enregistrées localement, sans transmission à un tiers. Les liens professionnels ne sont suivis que si activés. L’hébergeur peut conserver ses propres journaux techniques.
 
 ## GitHub et publication
 
